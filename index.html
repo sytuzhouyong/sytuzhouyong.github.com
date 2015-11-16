@@ -90,7 +90,7 @@
         <p>　　今天刚把<code>hexo</code>部署到<code>GitCafe</code>上后发现，页面基本上已经加载完了，但是浏览器还是在不停的转圈，而且持续很长时间，估计是什么资源请求不到的原因。<br>　　后来我用浏览器的<code>Develop Tools</code>工具看了下，发现是在请求<code>jquery.min.js</code>上卡住了，所以就找了个国内网站上的<code>jquery.min.js</code>，如<code>sina</code>的，地址是：<code>lib.sinaapp.com/js/jquery/2.0/jquery.min.js</code>，最后部署上去发现果然很快，再也没有出现转圈的情况了。<br>　　修改<code>jquery.min.js</code>的地方在：<code>blog的根目录/thems/当前主题(landscape)/layout/_partial/after-footer.ejs</code>中。</p>
 <hr>
 <h3 id="目前遇到的问题">目前遇到的问题</h3><ol>
-<li><p>每次我<code>hexo deploy</code>的时候都出错，暂时还不知道什么原因。<br><img src="http://7xoc0c.com1.z0.glb.clouddn.com/hexo_delopy_error_001.png" alt=""></p>
+<li><p>每次我<code>hexo deploy</code>的时候都出错，<br><img src="http://7xoc0c.com1.z0.glb.clouddn.com/hexo_delopy_error_001.png" alt=""><br>改成<code>sudo hexo deploy</code>后，输入密码就可以了，暂时还不知道什么原因，知道的朋友可以告诉下！</p>
 </li>
 <li><p>配置<code>gitcafe ssh</code>后<code>ssh -T git@gitcafe.com</code>提示<code>Permission denied (publickey).</code>，说要修改<code>sshd-config</code>文件的配置，可是修改了后发现<code>service sshd restart</code>怎么也运行不了，报错：<code>service command not found</code>，可是我已经在<code>root</code>用户下，按照<a href="http://renshuming8231.blog.163.com/blog/static/12948376520129228462649/" target="_blank" rel="external">网上教程</a>说的，<code>Linux</code>命令还是不熟悉，找个机会要补补了，好烦！</p>
 </li>
@@ -101,7 +101,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2015/11/15/Hexo优化访问速度/" data-id="cih05laq40000z439appr0v2x" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2015/11/15/Hexo优化访问速度/" data-id="cih1v7tr100002b39lk6d3ht5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -146,7 +146,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2015/11/15/hello-world/" data-id="cih05laqp0001z439aemjsxas" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2015/11/15/hello-world/" data-id="cih1v7trb00012b396dyf2pf4" class="article-share-link">Share</a>
       
       
     </footer>
