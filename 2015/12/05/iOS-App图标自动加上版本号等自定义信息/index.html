@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS App图标自动加上版本号等自定义信息 | sytuzhouyong&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="XCode版本   
+123456789101112131415161718192021222324252627IFS=$&apos;\n&apos;buildNumber=$(/usr/libexec/PlistBuddy -c &quot;Print CFBundleVersion&quot; &quot;$&amp;#123;PROJECT_DIR&amp;#125;/$&amp;#123;INFOPLIST_FILE&amp;#125;&quot;)versionNumber=$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS App图标自动加上版本号等自定义信息">
+<meta property="og:url" content="http://sytuzhouyong.gitcafe.io/2015/12/05/iOS-App图标自动加上版本号等自定义信息/index.html">
+<meta property="og:site_name" content="sytuzhouyong's blog">
+<meta property="og:description" content="XCode版本   
+123456789101112131415161718192021222324252627IFS=$&apos;\n&apos;buildNumber=$(/usr/libexec/PlistBuddy -c &quot;Print CFBundleVersion&quot; &quot;$&amp;#123;PROJECT_DIR&amp;#125;/$&amp;#123;INFOPLIST_FILE&amp;#125;&quot;)versionNumber=$">
+<meta property="og:updated_time" content="2015-12-05T12:44:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS App图标自动加上版本号等自定义信息">
+<meta name="twitter:description" content="XCode版本   
+123456789101112131415161718192021222324252627IFS=$&apos;\n&apos;buildNumber=$(/usr/libexec/PlistBuddy -c &quot;Print CFBundleVersion&quot; &quot;$&amp;#123;PROJECT_DIR&amp;#125;/$&amp;#123;INFOPLIST_FILE&amp;#125;&quot;)versionNumber=$">
+  
+    <link rel="alternative" href="/atom.xml" title="sytuzhouyong&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">sytuzhouyong&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">笨鸟先飞</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://sytuzhouyong.gitcafe.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-iOS-App图标自动加上版本号等自定义信息" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/05/iOS-App图标自动加上版本号等自定义信息/" class="article-date">
+  <time datetime="2015-12-05T12:32:02.000Z" itemprop="datePublished">2015-12-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS App图标自动加上版本号等自定义信息
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>XCode版本   </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">IFS=$<span class="string">'\n'</span></span><br><span class="line">buildNumber=$(/usr/libexec/PlistBuddy -c <span class="string">"Print CFBundleVersion"</span> <span class="string">"<span class="variable">$&#123;PROJECT_DIR&#125;</span>/<span class="variable">$&#123;INFOPLIST_FILE&#125;</span>"</span>)</span><br><span class="line">versionNumber=$(/usr/libexec/PlistBuddy -c <span class="string">"Print CFBundleShortVersionString"</span> <span class="string">"<span class="variable">$&#123;PROJECT_DIR&#125;</span>/<span class="variable">$&#123;INFOPLIST_FILE&#125;</span>"</span>)</span><br><span class="line">PATH=<span class="variable">$&#123;PATH&#125;</span>:/usr/<span class="built_in">local</span>/bin</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">generateIcon</span></span> () &#123;</span><br><span class="line">    BASE_IMAGE_NAME=<span class="variable">$1</span></span><br><span class="line">    </span><br><span class="line">    TARGET_PATH=<span class="string">"<span class="variable">$&#123;BUILT_PRODUCTS_DIR&#125;</span>/<span class="variable">$&#123;UNLOCALIZED_RESOURCES_FOLDER_PATH&#125;</span>/<span class="variable">$&#123;BASE_IMAGE_NAME&#125;</span>"</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$TARGET_PATH</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$SRCROOT</span></span><br><span class="line">    <span class="built_in">echo</span> $(find <span class="variable">$&#123;SRCROOT&#125;</span> -name <span class="string">"AppIcon120x120.png"</span>)</span><br><span class="line">    BASE_IMAGE_PATH=$(find <span class="variable">$&#123;SRCROOT&#125;</span> -name <span class="variable">$&#123;BASE_IMAGE_NAME&#125;</span>)</span><br><span class="line">    WIDTH=$(identify -format %w <span class="variable">$&#123;BASE_IMAGE_PATH&#125;</span>)</span><br><span class="line">    FONT_SIZE=$(<span class="built_in">echo</span> <span class="string">"<span class="variable">$WIDTH</span> * .15"</span> | bc <span class="operator">-l</span>)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"font size <span class="variable">$FONT_SIZE</span>"</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># if [ "$&#123;CONFIGURATION&#125;" == "Debug" ]; then</span></span><br><span class="line">    <span class="comment"># convert debugRibbon.png -resize $&#123;WIDTH&#125;x$&#123;WIDTH&#125; resizedRibbon.png</span></span><br><span class="line">    <span class="comment"># convert $&#123;BASE_IMAGE_PATH&#125; -fill white -font Times-Bold -pointsize $&#123;FONT_SIZE&#125; -gravity south -annotate 0 "$buildNumber" - | composite resizedRibbon.png - $&#123;TARGET_PATH&#125;</span></span><br><span class="line">    <span class="comment"># fi</span></span><br><span class="line"></span><br><span class="line">    convert <span class="variable">$&#123;BASE_IMAGE_PATH&#125;</span> -fill white -font Times-Bold -pointsize <span class="variable">$&#123;FONT_SIZE&#125;</span> -gravity south -annotate <span class="number">0</span> <span class="string">"<span class="variable">$versionNumber</span>.<span class="variable">$buildNumber</span>"</span> - | convert -fill yellow -font Times-Bold -pointsize <span class="variable">$&#123;FONT_SIZE&#125;</span> -gravity north -annotate <span class="number">0</span> <span class="string">"<span class="variable">$&#123;CONFIGURATION&#125;</span>"</span> - <span class="variable">$&#123;TARGET_PATH&#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">generateIcon <span class="string">"AppIcon60x60@2x.png"</span></span><br><span class="line">generateIcon <span class="string">"AppIcon60x60@3x.png"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Jenkins版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">IFS=$<span class="string">'\n'</span></span><br><span class="line"></span><br><span class="line">CONFIGURATION=Release</span><br><span class="line">PROJECT_ROOT=<span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;JOB_NAME&#125;</span></span><br><span class="line">SOURCE_ROOT=<span class="variable">$&#123;PROJECT_ROOT&#125;</span>/<span class="variable">$&#123;JOB_NAME&#125;</span></span><br><span class="line">PLIST_FILE=<span class="variable">$&#123;SOURCE_ROOT&#125;</span>/Info.plist</span><br><span class="line">APP_ICON_PATH=<span class="variable">$&#123;SOURCE_ROOT&#125;</span>/Images.xcassets/AppIcon.appiconset</span><br><span class="line"></span><br><span class="line">rm -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/ipa/*</span><br><span class="line">rm -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/app/*</span><br><span class="line"></span><br><span class="line">BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c <span class="string">"Print CFBundleVersion"</span> <span class="string">"<span class="variable">$PLIST_FILE</span>"</span>)</span><br><span class="line">BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c <span class="string">"Print CFBundleShortVersionString"</span> <span class="string">"<span class="variable">$PLIST_FILE</span>"</span>)</span><br><span class="line"></span><br><span class="line">NORTH_STRING=<span class="variable">$&#123;CONFIGURATION&#125;</span>_<span class="variable">$&#123;BUILD_NUMBER&#125;</span></span><br><span class="line">SOUTH_STRING=<span class="variable">$&#123;BUNDLE_VERSION&#125;</span></span><br><span class="line"></span><br><span class="line">PATH=<span class="variable">$&#123;PATH&#125;</span>:/usr/<span class="built_in">local</span>/bin</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">generateIcon</span></span> () &#123;</span><br><span class="line">    IMAGE_NAME=<span class="variable">$1</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"APP_ICON_PATH = <span class="variable">$APP_ICON_PATH</span>"</span></span><br><span class="line">    </span><br><span class="line">    SOURCE_IMAGE_PATH=`find <span class="variable">$&#123;PROJECT_ROOT&#125;</span> -name <span class="variable">$IMAGE_NAME</span> -depth <span class="number">1</span>`</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"SOURCE_IMAGE_PATH = <span class="variable">$SOURCE_IMAGE_PATH</span>"</span></span><br><span class="line">    TARGET_IMAGE_PATH=<span class="variable">$&#123;APP_ICON_PATH&#125;</span>/<span class="variable">$&#123;IMAGE_NAME&#125;</span></span><br><span class="line">    </span><br><span class="line">    WIDTH=$(identify -format %w <span class="variable">$&#123;SOURCE_IMAGE_PATH&#125;</span>)</span><br><span class="line">    FONT_SIZE=$(<span class="built_in">echo</span> <span class="string">"<span class="variable">$WIDTH</span> * .15"</span> | bc <span class="operator">-l</span>)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"width = <span class="variable">$WIDTH</span>, font size ＝ <span class="variable">$FONT_SIZE</span>"</span></span><br><span class="line">    </span><br><span class="line">    convert <span class="variable">$&#123;SOURCE_IMAGE_PATH&#125;</span> \</span><br><span class="line">    -fill black -font Times-Bold -pointsize <span class="variable">$&#123;FONT_SIZE&#125;</span> \</span><br><span class="line">            -gravity north -annotate +<span class="number">0</span>+<span class="number">10</span> <span class="string">"<span class="variable">$&#123;NORTH_STRING&#125;</span>"</span> \</span><br><span class="line">    - | </span><br><span class="line">    convert -fill white -font Times-Bold -pointsize <span class="variable">$&#123;FONT_SIZE&#125;</span> \</span><br><span class="line">    -gravity south -annotate <span class="number">0</span> <span class="string">"<span class="variable">$&#123;SOUTH_STRING&#125;</span>"</span> - \</span><br><span class="line">            <span class="variable">$&#123;TARGET_IMAGE_PATH&#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;CONFIGURATION&#125;</span>"</span> != <span class="string">"Distribution"</span> ]; <span class="keyword">then</span></span><br><span class="line">    generateIcon <span class="string">"AppIcon60x60@2x.png"</span></span><br><span class="line">    generateIcon <span class="string">"AppIcon60x60@3x.png"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sytuzhouyong.gitcafe.io/2015/12/05/iOS-App图标自动加上版本号等自定义信息/" data-id="ciht39lgp0004iw39qe4g1mpd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/12/04/XCode7下的APP名字国际化/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">XCode7下的APP名字国际化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/12/05/iOS-App图标自动加上版本号等自定义信息/">iOS App图标自动加上版本号等自定义信息</a>
+          </li>
+        
+          <li>
+            <a href="/2015/12/04/XCode7下的APP名字国际化/">XCode7下的APP名字国际化</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/24/搞笑视频屋/">搞笑视频屋</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/24/周星驰-让我们一起了解他的故事/">周星驰 让我们一起了解他的故事</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/23/水晶头的排线/">水晶头的排线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5019977541&verifier=8f444e7c&dpc=1"></iframe>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 sytuzhouyong<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//lib.sinaapp.com/js/jquery/2.0/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
