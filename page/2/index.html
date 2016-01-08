@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015/11 | sytuzhouyong&#39;s blog</title>
+  <title>sytuzhouyong&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="无人">
 <meta property="og:type" content="website">
 <meta property="og:title" content="sytuzhouyong's blog">
-<meta property="og:url" content="http://sytuzhouyong.gitcafe.io/archives/2015/11/index.html">
+<meta property="og:url" content="http://sytuzhouyong.gitcafe.io/page/2/index.html">
 <meta property="og:site_name" content="sytuzhouyong's blog">
 <meta property="og:description" content="无人">
 <meta name="twitter:card" content="summary">
@@ -65,131 +65,51 @@
       <div class="outer">
         <section id="main">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/11/24/搞笑视频屋/" class="archive-article-date">
-  <time datetime="2015-11-24T15:29:05.000Z" itemprop="datePublished">11月 24</time>
+    <article id="post-XCode7下的APP名字国际化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/04/XCode7下的APP名字国际化/" class="article-date">
+  <time datetime="2015-12-04T10:50:54.000Z" itemprop="datePublished">2015-12-04</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/24/搞笑视频屋/">搞笑视频屋</a>
+      <a class="article-title" href="/2015/12/04/XCode7下的APP名字国际化/">XCode7下的APP名字国际化</a>
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/11/24/周星驰-让我们一起了解他的故事/" class="archive-article-date">
-  <time datetime="2015-11-24T14:25:22.000Z" itemprop="datePublished">11月 24</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/24/周星驰-让我们一起了解他的故事/">周星驰 让我们一起了解他的故事</a>
-    </h1>
-  
+        <p>最近在整理国际化的东西，后来想到<code>AppName</code>也要支持国际化，就上网搜索了一下，发现大部分的博客文档都是在<code>InfoPlist.strings</code>自动生成的情况下做的。但是自从升级到<code>XCode7</code>后就没有关注过这方面的东西，现在<code>XCode</code>的做法又有变化了，<code>InfoPlist.strings</code>没有了，后来自己反复试验下终于找到了方法，不敢私藏，特意分享出来，造福广大屌丝，O(∩_∩)O哈哈~</p>
+<h3 id="1-_自己新建一个InfoPlist-strings">1. 自己新建一个<code>InfoPlist.strings</code></h3><p><code>CMD + N</code>或者在菜单中选择<code>新建</code>，弹出如下对话框，并选择<code>Strings File</code><br><img src="http://7xoc0c.com1.z0.glb.clouddn.com/2015-12-05/1.png" alt=""><br>然后点击<code>Next</code>，弹出文件名对话框，输入<code>InfoPlist.strings</code>，点击<code>Create</code>。<br><img src="http://7xoc0c.com1.z0.glb.clouddn.com/2015-12-05/2.png" alt="">  </p>
+<h3 id="2-_将创建的strings文件支持国际化">2. 将创建的<code>strings</code>文件支持国际化</h3><p>在项目浏览器中点击刚刚创建的<code>InfoPlist.strings</code>，打开<code>Utilities</code>面板，点击<code>Localize...</code>按钮，在弹出的对话框中点击<code>Localize</code>按钮，如下图所示<br><img src="http://7xoc0c.com1.z0.glb.clouddn.com/2015-12-05/3.png" alt="">   </p>
+<h3 id="3-_添加各种语言支持">3. 添加各种语言支持</h3><p>打开项目属性，如下图，点击<code>Localizations</code>下的<code>+</code>按钮，弹出语言列表项，<br><img src="http://7xoc0c.com1.z0.glb.clouddn.com/2015-12-05/4.png" alt=""><br>选择你需要添加的语言，弹出如下对话框<br><img src="http://7xoc0c.com1.z0.glb.clouddn.com/2015-12-05/5.png" alt=""><br>要添加多个，就重复以上步骤。</p>
+<h3 id="4-_设置AppName在各种语言下的值">4. 设置<code>AppName</code>在各种语言下的值</h3><p>最后回到项目文件浏览页面，看到刚刚添加的<code>InfoPlist.strings</code>已经变成一个目录结构，下面就是对应刚才添加的各种语言配置文件，<br><img src="http://7xoc0c.com1.z0.glb.clouddn.com/2015-12-05/6.png" alt=""><br>在对应的<code>InfoPlist</code>里面加上如下语句就OK了<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="setting">CFBundleDisplayName = <span class="value"><span class="string">""</span>;</span></span></span><br></pre></td></tr></table></figure></p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/11/23/水晶头的排线/" class="archive-article-date">
-  <time datetime="2015-11-23T14:43:03.000Z" itemprop="datePublished">11月 23</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/23/水晶头的排线/">水晶头的排线</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/11/18/git多人开发的分支管理/" class="archive-article-date">
-  <time datetime="2015-11-18T15:00:59.000Z" itemprop="datePublished">11月 18</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sytuzhouyong.gitcafe.io/2015/12/04/XCode7下的APP名字国际化/" data-id="cij5g4l3o0007ra39436usvbs" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/18/git多人开发的分支管理/">git多人开发的分支管理</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/11/15/Hexo优化访问速度/" class="archive-article-date">
-  <time datetime="2015-11-15T04:17:35.000Z" itemprop="datePublished">11月 15</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/15/Hexo优化访问速度/">优化Hexo的访问速度</a>
-    </h1>
-  
-
-    </header>
+    </footer>
   </div>
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/11/15/hello-world/" class="archive-article-date">
-  <time datetime="2015-11-15T02:21:07.000Z" itemprop="datePublished">11月 15</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/15/hello-world/">Hello World</a>
-    </h1>
-  
 
-    </header>
-  </div>
-</article>
+
   
   
-    </div></section>
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    </nav>
   
 </section>
         
