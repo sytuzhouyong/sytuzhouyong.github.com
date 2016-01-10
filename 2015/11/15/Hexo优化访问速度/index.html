@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="sytuzhouyong's blog">
 <meta property="og:description" content="今天刚把hexo部署到GitCafe上后发现，页面基本上已经加载完了，但是浏览器还是在不停的转圈，而且持续很长时间，估计是什么资源请求不到的原因。　　后来我用Chrome浏览器的Develop Tools工具看了下，发现是在请求jquery.min.js上卡住了，所以就找了个国内网站上的jquery.min.js，如sina的，地址是：lib.sinaapp.com/js/jquery/2.0/j">
 <meta property="og:image" content="http://7xoc0c.com1.z0.glb.clouddn.com/hexo_delopy_error_001.png">
-<meta property="og:updated_time" content="2016-01-10T13:04:57.000Z">
+<meta property="og:updated_time" content="2016-01-10T13:07:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="优化Hexo的访问速度">
 <meta name="twitter:description" content="今天刚把hexo部署到GitCafe上后发现，页面基本上已经加载完了，但是浏览器还是在不停的转圈，而且持续很长时间，估计是什么资源请求不到的原因。　　后来我用Chrome浏览器的Develop Tools工具看了下，发现是在请求jquery.min.js上卡住了，所以就找了个国内网站上的jquery.min.js，如sina的，地址是：lib.sinaapp.com/js/jquery/2.0/j">
@@ -87,7 +87,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>　　今天刚把<code>hexo</code>部署到<code>GitCafe</code>上后发现，页面基本上已经加载完了，但是浏览器还是在不停的转圈，而且持续很长时间，估计是什么资源请求不到的原因。<br>　　后来我用<code>Chrome</code>浏览器的<code>Develop Tools</code>工具看了下，发现是在请求<code>jquery.min.js</code>上卡住了，所以就找了个国内网站上的<code>jquery.min.js</code>，如<code>sina</code>的，地址是：<code>lib.sinaapp.com/js/jquery/2.0/jquery.min.js</code>，最后部署上去发现果然很快，再也没有出现转圈的情况了。<br>　　修改<code>jquery.min.js</code>地址的文件：<code>blog的根目录/thems/当前主题(landscape)/layout/_partial/after-footer.ejs</code>中。<br>    修改完成后发现Github上的博客访问速度也加快了，用同样的方法一查，果然也是这个脚本文件捣的鬼。关于如何同时部署到两个Git仓上，请见<a href="http://sytuzhouyong.gitcafe.io/">这里</a>。</p>
+        <p>　　今天刚把<code>hexo</code>部署到<code>GitCafe</code>上后发现，页面基本上已经加载完了，但是浏览器还是在不停的转圈，而且持续很长时间，估计是什么资源请求不到的原因。<br>　　后来我用<code>Chrome</code>浏览器的<code>Develop Tools</code>工具看了下，发现是在请求<code>jquery.min.js</code>上卡住了，所以就找了个国内网站上的<code>jquery.min.js</code>，如<code>sina</code>的，地址是：<code>lib.sinaapp.com/js/jquery/2.0/jquery.min.js</code>，最后部署上去发现果然很快，再也没有出现转圈的情况了。<br>　　修改<code>jquery.min.js</code>地址的文件：<code>blog的根目录/thems/当前主题(landscape)/layout/_partial/after-footer.ejs</code>中。<br>　　修改完成后发现Github上的博客访问速度也加快了，用同样的方法一查，果然也是这个脚本文件捣的鬼。关于如何同时部署到两个Git仓上，请见<a href="http://sytuzhouyong.gitcafe.io/">这里</a>。</p>
 <hr>
 <h3 id="目前遇到的问题">目前遇到的问题</h3><ol>
 <li><p>每次我<code>hexo deploy</code>的时候都出错，<br><img src="http://7xoc0c.com1.z0.glb.clouddn.com/hexo_delopy_error_001.png" alt=""><br>改成<code>sudo hexo deploy</code>后，输入密码就可以了，暂时还不知道什么原因，知道的朋友可以告诉下！</p>
@@ -101,7 +101,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2015/11/15/Hexo优化访问速度/" data-id="cij8k07rn00004r39fofhdbza" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2015/11/15/Hexo优化访问速度/" data-id="cij8k2sra00005x395lv17bih" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo-优化访问速度/">Hexo, 优化访问速度</a></li></ul>
