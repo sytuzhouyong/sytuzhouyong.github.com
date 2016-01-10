@@ -3,21 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | sytuzhouyong&#39;s blog</title>
+  <title>将hexo同时备份到GitHub和GitCafe上 | sytuzhouyong&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="首先在GitHub上的master分支上新建一个仓，叫yourname.github.io, GitCafe上新建一个分支叫gitcafe-pages, 在此分支上新建一个yourname的仓
+在hexo根目录下的配置文件_config.yml里面的deploy:里面的配置改成
+12345deploy:  type: git  repo:    github: https://github.com">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://sytuzhouyong.gitcafe.io/2015/11/15/hello-world/index.html">
+<meta property="og:title" content="将hexo同时备份到GitHub和GitCafe上">
+<meta property="og:url" content="http://sytuzhouyong.gitcafe.io/2016/01/08/将hexo同时备份到GitHub和GitCafe上/index.html">
 <meta property="og:site_name" content="sytuzhouyong's blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-11-15T02:21:07.000Z">
+<meta property="og:description" content="首先在GitHub上的master分支上新建一个仓，叫yourname.github.io, GitCafe上新建一个分支叫gitcafe-pages, 在此分支上新建一个yourname的仓
+在hexo根目录下的配置文件_config.yml里面的deploy:里面的配置改成
+12345deploy:  type: git  repo:    github: https://github.com">
+<meta property="og:updated_time" content="2016-01-10T12:53:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="将hexo同时备份到GitHub和GitCafe上">
+<meta name="twitter:description" content="首先在GitHub上的master分支上新建一个仓，叫yourname.github.io, GitCafe上新建一个分支叫gitcafe-pages, 在此分支上新建一个yourname的仓
+在hexo根目录下的配置文件_config.yml里面的deploy:里面的配置改成
+12345deploy:  type: git  repo:    github: https://github.com">
   
     <link rel="alternative" href="/atom.xml" title="sytuzhouyong&#39;s blog" type="application/atom+xml">
   
@@ -67,10 +70,10 @@ Quick">
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-将hexo同时备份到GitHub和GitCafe上" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/11/15/hello-world/" class="article-date">
-  <time datetime="2015-11-15T02:21:07.000Z" itemprop="datePublished">2015-11-15</time>
+    <a href="/2016/01/08/将hexo同时备份到GitHub和GitCafe上/" class="article-date">
+  <time datetime="2016-01-08T09:16:08.000Z" itemprop="datePublished">2016-01-08</time>
 </a>
     
   </div>
@@ -81,7 +84,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      将hexo同时备份到GitHub和GitCafe上
     </h1>
   
 
@@ -89,37 +92,34 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
+        <ol>
+<li>首先在<code>GitHub</code>上的<code>master</code>分支上新建一个仓，叫<code>yourname.github.io</code>, <code>GitCafe</code>上新建一个分支叫<code>gitcafe-pages</code>, 在此分支上新建一个<code>yourname</code>的仓</li>
+<li><p>在hexo根目录下的配置文件<code>_config.yml</code>里面的<code>deploy:</code>里面的配置改成</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repo</span>:</span><br><span class="line">    <span class="attribute">github</span>: <span class="attribute">https</span>:<span class="comment">//github.com/sytuzhouyong/sytuzhouyong.github.io.git,master</span></span><br><span class="line">    <span class="attribute">gitcafe</span>: <span class="attribute">https</span>:<span class="comment">//gitcafe.com/sytuzhouyong/sytuzhouyong.git,gitcafe-pages</span></span><br></pre></td></tr></table></figure>
+<p>之后执行<code>hexo deploy</code>时就会同时向2个库提交修改。</p>
+</li>
+</ol>
+<hr>
+<h2 id="祝您使用愉快！">祝您使用愉快！</h2>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2015/11/15/hello-world/" data-id="cij5h953l0005ul39cwwaovv8" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2016/01/08/将hexo同时备份到GitHub和GitCafe上/" data-id="cij8jgwc200000e39foyej3jz" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2015/11/15/Hexo优化访问速度/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          优化Hexo的访问速度
-        
-      </div>
-    </a>
   
+    <a href="/2015/12/05/iOS-App图标自动加上版本号等自定义信息/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS App图标自动加上版本号等自定义信息</div>
+    </a>
   
 </nav>
 
