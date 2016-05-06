@@ -8,7 +8,7 @@
   <meta name="description" content="无人">
 <meta property="og:type" content="website">
 <meta property="og:title" content="sytuzhouyong's blog">
-<meta property="og:url" content="http://sytuzhouyong.gitcafe.io/index.html">
+<meta property="og:url" content="http://sytuzhouyong.gitcafe.io/page/11/index.html">
 <meta property="og:site_name" content="sytuzhouyong's blog">
 <meta property="og:description" content="无人">
 <meta name="twitter:card" content="summary">
@@ -65,10 +65,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-动态设置CocoaLumberjack的日志级别" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/05/06/动态设置CocoaLumberjack的日志级别/" class="article-date">
-  <time datetime="2016-05-06T07:03:57.000Z" itemprop="datePublished">2016-05-06</time>
+    <a href="/2015/11/15/hello-world/" class="article-date">
+  <time datetime="2015-11-15T02:21:07.000Z" itemprop="datePublished">2015-11-15</time>
 </a>
     
   </div>
@@ -79,7 +79,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/06/动态设置CocoaLumberjack的日志级别/">动态设置CocoaLumberjack的日志级别</a>
+      <a class="article-title" href="/2015/11/15/hello-world/">Hello World</a>
     </h1>
   
 
@@ -87,49 +87,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>###使用场景<br>在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要<code>DDLogLevelVerbose</code>级别，执行完成后需要<code>DDLogLevelInfo</code>级别，这时候之前的日志级别设置就没有能力来实现.</p>
-<p>####之前的实现：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">if</span> DEBUG</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">else</span></span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<p>后面想到，是不是只要改变<code>ddLogLevel</code>的值就可以实现了呢？改成</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">if</span> DEBUG</span></span><br><span class="line">    <span class="keyword">static</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">else</span></span></span><br><span class="line">    <span class="keyword">static</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<p>去掉了<code>const</code>修饰符，然后随便在一个按钮响应函数里面设置成</p>
-<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ddLogLevel = DDLogLevelError</span><br><span class="line"><span class="escape">``</span><span class="escape">` </span></span><br><span class="line"></span><br><span class="line">测试了下，点击了按钮，发现没有作用，只能另外再找方法。</span><br><span class="line"></span><br><span class="line">####DDRegisteredDynamicLogging</span><br><span class="line">后来在翻看<span class="escape">`D</span>DLog.h<span class="escape">`文</span>件时发现了<span class="escape">`D</span>DRegisteredDynamicLogging<span class="escape">`这</span>个协议，里面提供了<span class="number">2</span>个静态方法</span><br></pre></td></tr></table></figure>
-<ul>
-<li>(DDLogLevel)ddLogLevel;</li>
-<li>(void)ddSetLogLevel:(DDLogLevel)level;<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">里面还有段说明文字：</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>Implement these methods to allow a file’s log level to be managed from a central location.</p>
-<p>This is useful if you’d like to be able to change log levels for various parts  of your code from within the running application.  </p>
-<p>Imagine pulling up the settings for your application, and being able to configure the logging level on a per file basis.<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">看样子貌似可以，说干就干。新建一个类，实现<span class="escape">`D</span>DRegisteredDynamicLogging<span class="escape">`协</span>议。  </span><br><span class="line"></span><br><span class="line">DDDynamicLogLevel.h</span><br></pre></td></tr></table></figure></p>
-<p>#import “DDLog.h”</p>
-<p>@interface DDDynamicLogLevel : NSObject <ddregistereddynamiclogging></ddregistereddynamiclogging></p>
-<p>@end<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DDDynamicLogLevel.m  </span><br><span class="line"><span class="tag">&lt;<span class="title">b</span>&gt;</span>注意<span class="tag">&lt;/<span class="title">b</span>&gt;</span> 这里新建一个静态变量，用于动态控制日志级别</span><br></pre></td></tr></table></figure></p>
-<p>static DDLogLevel s_ddLogLevel = DDLogLevelVerbose;</p>
-<p>@implementation DDDynamicLogLevel</p>
-<ul>
-<li><p>(DDLogLevel)ddLogLevel {<br>  return s_ddLogLevel;<br>}</p>
-</li>
-<li><p>(void)ddSetLogLevel:(DDLogLevel)level {<br>  s_ddLogLevel = level;<br>}</p>
-</li>
-</ul>
-<p>@end<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">然后将之前定义的日志级别宏定义替换为</span><br></pre></td></tr></table></figure></p>
-<p>#ifdef LOG_LEVEL_DEF</p>
-<h1 id="undef_LOG_LEVEL_DEF">undef LOG_LEVEL_DEF</h1><p>#endif</p>
-<p>#define LOG_LEVEL_DEF [DDDynamicLogLevel ddLogLevel]<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注意引入头文件<span class="escape">`D</span>DDynamicLogLevel.h<span class="escape">`，</span>再测试，</span><br></pre></td></tr></table></figure></p>
-<p>[DDDynamicLogLevel ddSetLogLevel:DDLogLevelError];<br>DDLogInfo(@”111 – Info”);<br>DDLogError(@”11111111”);</p>
-<p>[DDDynamicLogLevel ddSetLogLevel:DDLogLevelInfo];<br>DDLogInfo(@”222 – Info”);<br>DDLogError(@”222222222”);<br>```</p>
-<p>发现起作用了。😄</p>
-<h2 id="结尾">结尾</h2><p>就到这里了，祝大家使用愉快！</p>
+        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/06/动态设置CocoaLumberjack的日志级别/" data-id="cinve20w3000s9i39pyu4e02j" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2015/11/15/hello-world/" data-id="cinve1po7000l9i39i51par1l" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CocoaLumberjack-iOS/">CocoaLumberjack, iOS</a></li></ul>
-
     </footer>
   </div>
   
@@ -139,7 +112,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/10/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span>
     </nav>
   
 </section>

@@ -65,10 +65,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-将hexo同时备份到GitHub和GitCafe上" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-iOS项目一键打包脚本" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/01/08/将hexo同时备份到GitHub和GitCafe上/" class="article-date">
-  <time datetime="2016-01-08T09:16:08.000Z" itemprop="datePublished">2016-01-08</time>
+    <a href="/2016/01/19/iOS项目一键打包脚本/" class="article-date">
+  <time datetime="2016-01-19T13:25:38.000Z" itemprop="datePublished">2016-01-19</time>
 </a>
     
   </div>
@@ -79,7 +79,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/08/将hexo同时备份到GitHub和GitCafe上/">将hexo同时备份到GitHub和GitCafe上</a>
+      <a class="article-title" href="/2016/01/19/iOS项目一键打包脚本/">iOS项目一键打包脚本</a>
     </h1>
   
 
@@ -88,21 +88,42 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ol>
-<li>首先在<code>GitHub</code>上的<code>master</code>分支上新建一个仓，叫<code>yourname.github.io</code>, <code>GitCafe</code>上新建一个分支叫<code>gitcafe-pages</code>, 在此分支上新建一个<code>yourname</code>的仓</li>
-<li><p>在hexo根目录下的配置文件<code>_config.yml</code>里面的<code>deploy:</code>里面的配置改成</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repo</span>:</span><br><span class="line">    <span class="attribute">github</span>: <span class="attribute">https</span>:<span class="comment">//github.com/sytuzhouyong/sytuzhouyong.github.io.git,master</span></span><br><span class="line">    <span class="attribute">gitcafe</span>: <span class="attribute">https</span>:<span class="comment">//gitcafe.com/sytuzhouyong/sytuzhouyong.git,gitcafe-pages</span></span><br></pre></td></tr></table></figure>
-<p>之后执行<code>hexo deploy</code>时就会同时向2个库提交修改。</p>
+<li>定义一系列变量 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="setting">ProjectRootDir=<span class="value"><span class="string">"$(PWD)"</span></span></span></span><br><span class="line"><span class="setting">ProjectName=<span class="value"><span class="string">"XingHomecloud"</span></span></span></span><br><span class="line"><span class="setting">Configuration=<span class="value"><span class="string">"Release"</span></span></span></span><br><span class="line"><span class="setting">IPAPath=<span class="value"><span class="string">"$ProjectRootDir/ipa"</span></span></span></span><br><span class="line"><span class="setting">IPATitle=<span class="value"><span class="string">"XingHC"</span></span></span></span><br><span class="line"><span class="setting">TargetBuildDir=<span class="value"><span class="string">"$ProjectRootDir/build"</span></span></span></span><br><span class="line"><span class="setting">CODE_SIGN_STRING=<span class="value"><span class="string">"iPhone Distribution: ZTE CORPORATION"</span></span></span></span><br><span class="line"><span class="setting">PROVISIONING_PROFILE_STRING=<span class="value"><span class="string">"$IPAPath/ZXIPTV_InHouse.mobileprovision"</span></span></span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<hr>
-<h2 id="祝您使用愉快！">祝您使用愉快！</h2>
+<ol>
+<li>根据参数确定<code>ipa</code>包的名字以及<code>Configuration</code>的值 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">IPAName=<span class="string">"$IPATitle.ipa"</span></span><br><span class="line">VersionName=<span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> arg <span class="keyword">in</span> <span class="string">"$@"</span>; do</span><br><span class="line">	echo <span class="variable">$arg</span></span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ x<span class="variable">$1</span> != x ]; <span class="keyword">then</span></span><br><span class="line">	echo <span class="string">"参数1, VersionName = $1"</span></span><br><span class="line">	VersionName=<span class="variable">$1</span></span><br><span class="line">	IPAName=<span class="string">"$IPATitle-$VersionName.ipa"</span></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ x<span class="variable">$2</span> != x ]; <span class="keyword">then</span></span><br><span class="line">	echo <span class="string">"参数2, Configuration = $2"</span></span><br><span class="line">	Configuration=<span class="variable">$2</span></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">echo <span class="string">"IPAName = $IPAName"</span></span><br><span class="line">echo <span class="string">"Configuration = $Configuration"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>清理项目和临时文件目录 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm -rf <span class="variable">$TargetBuildDir</span></span><br><span class="line">/usr/bin/xcodebuild clean -configuration <span class="variable">$Configuration</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>如果是单个project</p>
+ <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/xcodebuild -target <span class="variable">$ProjectName</span> \</span><br><span class="line">	-configuration <span class="variable">$Configuration</span> \</span><br><span class="line">	CODE_SIGN_IDENTITY=<span class="string">"$CODE_SIGN_STRING"</span></span><br></pre></td></tr></table></figure>
+<p> 如果是工作空间</p>
+ <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/xcodebuild -workspace <span class="variable">$ProjectRootDir</span>/<span class="variable">$ProjectName</span>.xcworkspace \</span><br><span class="line"> 	-scheme <span class="variable">$ProjectName</span> \</span><br><span class="line">   	-configuration <span class="variable">$Configuration</span> \</span><br><span class="line">   	-sdk iphoneos \</span><br><span class="line">   	CODE_SIGN_RESOURCE_RULES_PATH=<span class="string">'$(SDKROOT)/ResourceRules.plist'</span> \</span><br><span class="line">   	OBJROOT=<span class="variable">$TargetBuildDir</span> \</span><br><span class="line">   	TARGET_BUILD_DIR=<span class="variable">$TargetBuildDir</span> \</span><br></pre></td></tr></table></figure>
+<p> 这里因为设置了<code>TARGET_BUILD_DIR</code>,所以需要在工程的<code>Library Search Path</code>中添加设置的目录，否则编译会报错，信息是找不到引用的第三方库: <code>library not found for -l AFNetworking</code>,但是直接在Xcode中编译会出现一个找不到目录的警告,这个暂时还没有办法两全其美的办法。<br> 另外，如果在项目中有额外的静态库，还需要将静态库以及头文件拷贝到<code>TARGET_BUILD_DIR</code>中。</p>
+ <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp $(ProjectRootDir)/<span class="variable">$ProjectName</span>/SDK/* <span class="variable">$TargetBuildDir</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>打包IPA <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$IPAPath</span></span><br><span class="line">/usr/bin/xcrun -sdk iphoneos \</span><br><span class="line">	PackageApplication \</span><br><span class="line">		-v <span class="variable">$TargetBuildDir</span>/<span class="variable">$ProjectName</span>.app \</span><br><span class="line">		-o <span class="variable">$IPAPath</span>/<span class="variable">$IPAName</span> \</span><br><span class="line">		--sign <span class="string">"$CODE_SIGN_STRING"</span></span><br><span class="line">		--embed <span class="string">"$PROVISIONING_PROFILE_STRING"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>清理临时目录 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf <span class="variable">$TargetBuildDir</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2016/01/08/将hexo同时备份到GitHub和GitCafe上/" data-id="cijy9rzlz00098x390eiv5ugk" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2016/01/19/iOS项目一键打包脚本/" data-id="cinve1po0000f9i39ro5fgbaa" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IPA/">IPA</a></li></ul>
 
     </footer>
   </div>
@@ -113,7 +134,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -126,7 +147,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo-优化访问速度/">Hexo, 优化访问速度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPA/">IPA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode-Jenkins-Script/">Xcode, Jenkins, Script</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode-国际化/">Xcode, 国际化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/周星驰/">周星驰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/无聊/">无聊</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/轻松一刻/">轻松一刻</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CocoaLumberjack-iOS/">CocoaLumberjack, iOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo-优化访问速度/">Hexo, 优化访问速度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPA/">IPA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode-Jenkins/">Xcode, Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode-国际化/">Xcode, 国际化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/周星驰/">周星驰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/无聊/">无聊</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/轻松一刻/">轻松一刻</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -135,7 +156,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo-优化访问速度/" style="font-size: 10px;">Hexo, 优化访问速度</a> <a href="/tags/IPA/" style="font-size: 10px;">IPA</a> <a href="/tags/Xcode-Jenkins-Script/" style="font-size: 10px;">Xcode, Jenkins, Script</a> <a href="/tags/Xcode-国际化/" style="font-size: 10px;">Xcode, 国际化</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/周星驰/" style="font-size: 10px;">周星驰</a> <a href="/tags/无聊/" style="font-size: 10px;">无聊</a> <a href="/tags/轻松一刻/" style="font-size: 10px;">轻松一刻</a>
+      <a href="/tags/CocoaLumberjack-iOS/" style="font-size: 10px;">CocoaLumberjack, iOS</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo-优化访问速度/" style="font-size: 10px;">Hexo, 优化访问速度</a> <a href="/tags/IPA/" style="font-size: 10px;">IPA</a> <a href="/tags/Xcode-Jenkins/" style="font-size: 10px;">Xcode, Jenkins</a> <a href="/tags/Xcode-国际化/" style="font-size: 10px;">Xcode, 国际化</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/周星驰/" style="font-size: 10px;">周星驰</a> <a href="/tags/无聊/" style="font-size: 10px;">无聊</a> <a href="/tags/轻松一刻/" style="font-size: 10px;">轻松一刻</a>
     </div>
   </div>
 
@@ -144,7 +165,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -154,6 +175,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/05/06/动态设置CocoaLumberjack的日志级别/">动态设置CocoaLumberjack的日志级别</a>
+          </li>
         
           <li>
             <a href="/2016/01/19/iOS项目一键打包脚本/">iOS项目一键打包脚本</a>
@@ -169,10 +194,6 @@
         
           <li>
             <a href="/2015/12/04/XCode7下的APP名字国际化/">XCode7下的APP名字国际化</a>
-          </li>
-        
-          <li>
-            <a href="/2015/11/24/搞笑视频屋/">搞笑视频屋</a>
           </li>
         
       </ul>
