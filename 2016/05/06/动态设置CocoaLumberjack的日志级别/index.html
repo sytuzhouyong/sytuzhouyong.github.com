@@ -5,22 +5,19 @@
   
   <title>动态设置CocoaLumberjack的日志级别 | sytuzhouyong&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="###使用场景在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要DDLogLevelVerbose级别，执行完成后需要DDLogLevelInfo级别，这时候之前的日志级别设置就没有能力来实现.
-####之前的实现：
-12345#if DEBUG    static const DDLogLevel ddLogLevel = DDLogLevelVerbose;#else">
+  <meta name="description" content="使用场景在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要DDLogLevelVerbose级别，执行完成后需要DDLogLevelInfo级别，这时候之前的日志级别设置就没有能力来实现.
+之前的实现12345#if DEBUG    static const DDLogLevel ddLogLevel = DDLogLevelVerbose;#else    static">
 <meta property="og:type" content="article">
 <meta property="og:title" content="动态设置CocoaLumberjack的日志级别">
 <meta property="og:url" content="http://sytuzhouyong.gitcafe.io/2016/05/06/动态设置CocoaLumberjack的日志级别/index.html">
 <meta property="og:site_name" content="sytuzhouyong's blog">
-<meta property="og:description" content="###使用场景在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要DDLogLevelVerbose级别，执行完成后需要DDLogLevelInfo级别，这时候之前的日志级别设置就没有能力来实现.
-####之前的实现：
-12345#if DEBUG    static const DDLogLevel ddLogLevel = DDLogLevelVerbose;#else">
-<meta property="og:updated_time" content="2016-05-06T07:16:47.000Z">
+<meta property="og:description" content="使用场景在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要DDLogLevelVerbose级别，执行完成后需要DDLogLevelInfo级别，这时候之前的日志级别设置就没有能力来实现.
+之前的实现12345#if DEBUG    static const DDLogLevel ddLogLevel = DDLogLevelVerbose;#else    static">
+<meta property="og:updated_time" content="2016-05-06T08:30:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="动态设置CocoaLumberjack的日志级别">
-<meta name="twitter:description" content="###使用场景在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要DDLogLevelVerbose级别，执行完成后需要DDLogLevelInfo级别，这时候之前的日志级别设置就没有能力来实现.
-####之前的实现：
-12345#if DEBUG    static const DDLogLevel ddLogLevel = DDLogLevelVerbose;#else">
+<meta name="twitter:description" content="使用场景在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要DDLogLevelVerbose级别，执行完成后需要DDLogLevelInfo级别，这时候之前的日志级别设置就没有能力来实现.
+之前的实现12345#if DEBUG    static const DDLogLevel ddLogLevel = DDLogLevelVerbose;#else    static">
   
     <link rel="alternative" href="/atom.xml" title="sytuzhouyong&#39;s blog" type="application/atom+xml">
   
@@ -92,54 +89,51 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>###使用场景<br>在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要<code>DDLogLevelVerbose</code>级别，执行完成后需要<code>DDLogLevelInfo</code>级别，这时候之前的日志级别设置就没有能力来实现.</p>
-<p>####之前的实现：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">if</span> DEBUG</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">else</span></span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+        <h3 id="使用场景">使用场景</h3><p>在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要<code>DDLogLevelVerbose</code>级别，执行完成后需要<code>DDLogLevelInfo</code>级别，这时候之前的日志级别设置就没有能力来实现.</p>
+<h4 id="之前的实现">之前的实现</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">if</span> DEBUG</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">else</span></span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>后面想到，是不是只要改变<code>ddLogLevel</code>的值就可以实现了呢？改成</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">if</span> DEBUG</span></span><br><span class="line">    <span class="keyword">static</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">else</span></span></span><br><span class="line">    <span class="keyword">static</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>去掉了<code>const</code>修饰符，然后随便在一个按钮响应函数里面设置成</p>
-<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ddLogLevel = DDLogLevelError</span><br><span class="line"><span class="escape">``</span><span class="escape">` </span></span><br><span class="line"></span><br><span class="line">测试了下，点击了按钮，发现没有作用，只能另外再找方法。</span><br><span class="line"></span><br><span class="line">####DDRegisteredDynamicLogging</span><br><span class="line">后来在翻看<span class="escape">`D</span>DLog.h<span class="escape">`文</span>件时发现了<span class="escape">`D</span>DRegisteredDynamicLogging<span class="escape">`这</span>个协议，里面提供了<span class="number">2</span>个静态方法</span><br></pre></td></tr></table></figure>
-<ul>
-<li>(DDLogLevel)ddLogLevel;</li>
-<li>(void)ddSetLogLevel:(DDLogLevel)level;<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">里面还有段说明文字：</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>Implement these methods to allow a file’s log level to be managed from a central location.</p>
-<p>This is useful if you’d like to be able to change log levels for various parts  of your code from within the running application.  </p>
-<p>Imagine pulling up the settings for your application, and being able to configure the logging level on a per file basis.<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">看样子貌似可以，说干就干。新建一个类，实现<span class="escape">`D</span>DRegisteredDynamicLogging<span class="escape">`协</span>议。  </span><br><span class="line"></span><br><span class="line">DDDynamicLogLevel.h</span><br></pre></td></tr></table></figure></p>
-<p>#import “DDLog.h”</p>
-<p>@interface DDDynamicLogLevel : NSObject <ddregistereddynamiclogging></ddregistereddynamiclogging></p>
-<p>@end<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DDDynamicLogLevel.m  </span><br><span class="line"><span class="tag">&lt;<span class="title">b</span>&gt;</span>注意<span class="tag">&lt;/<span class="title">b</span>&gt;</span> 这里新建一个静态变量，用于动态控制日志级别</span><br></pre></td></tr></table></figure></p>
-<p>static DDLogLevel s_ddLogLevel = DDLogLevelVerbose;</p>
-<p>@implementation DDDynamicLogLevel</p>
-<ul>
-<li><p>(DDLogLevel)ddLogLevel {<br>  return s_ddLogLevel;<br>}</p>
-</li>
-<li><p>(void)ddSetLogLevel:(DDLogLevel)level {<br>  s_ddLogLevel = level;<br>}</p>
-</li>
-</ul>
-<p>@end<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">然后将之前定义的日志级别宏定义替换为</span><br></pre></td></tr></table></figure></p>
-<p>#ifdef LOG_LEVEL_DEF</p>
-<h1 id="undef_LOG_LEVEL_DEF">undef LOG_LEVEL_DEF</h1><p>#endif</p>
-<p>#define LOG_LEVEL_DEF [DDDynamicLogLevel ddLogLevel]<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注意引入头文件<span class="escape">`D</span>DDynamicLogLevel.h<span class="escape">`，</span>再测试，</span><br></pre></td></tr></table></figure></p>
-<p>[DDDynamicLogLevel ddSetLogLevel:DDLogLevelError];<br>DDLogInfo(@”111 – Info”);<br>DDLogError(@”11111111”);</p>
-<p>[DDDynamicLogLevel ddSetLogLevel:DDLogLevelInfo];<br>DDLogInfo(@”222 – Info”);<br>DDLogError(@”222222222”);<br>```</p>
-<p>发现起作用了。😄</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ddLogLevel = DDLogLevelError<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>测试了下，点击了按钮，发现没有作用，只能另外再找方法。</p>
+<p>####DDRegisteredDynamicLogging<br>后来在翻看<code>DDLog.h</code>文件时发现了<code>DDRegisteredDynamicLogging</code>这个协议，里面提供了2个静态方法</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ <span class="comment">(DDLogLevel)</span>ddLogLevel;</span><br><span class="line">+ <span class="comment">(void)</span>ddSetLogLevel:<span class="comment">(DDLogLevel)</span>level;</span><br></pre></td></tr></table></figure>
+<p>里面还有段说明文字：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Implement these methods <span class="keyword">to</span> allow a <span class="type">file</span>'s <span class="command">log</span> level</span><br><span class="line"> <span class="keyword">to</span> be managed <span class="keyword">from</span> a central location.</span><br><span class="line"></span><br><span class="line">This <span class="keyword">is</span> useful <span class="keyword">if</span> you'd like <span class="keyword">to</span> be able <span class="keyword">to</span> change <span class="command">log</span> levels <span class="keyword">for</span></span><br><span class="line"> various parts  <span class="keyword">of</span> your code <span class="keyword">from</span> within <span class="keyword">the</span> <span class="property">running</span> <span class="type">application</span>.  </span><br><span class="line"></span><br><span class="line">Imagine pulling up <span class="keyword">the</span> settings <span class="keyword">for</span> your <span class="type">application</span>, </span><br><span class="line"><span class="keyword">and</span> being able <span class="keyword">to</span> configure <span class="keyword">the</span> logging level <span class="function_start"><span class="keyword">on</span></span> a per <span class="type">file</span> basis.</span><br></pre></td></tr></table></figure>
+<p>看样子貌似可以，说干就干。新建一个类，实现<code>DDRegisteredDynamicLogging</code>协议。  </p>
+<p>DDDynamicLogLevel.h</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import <span class="title">"DDLog.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">DDDynamicLogLevel</span> : <span class="title">NSObject</span> &lt;<span class="title">DDRegisteredDynamicLogging</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>DDDynamicLogLevel.m<br><b>注意</b> 这里新建一个静态变量，用于动态控制日志级别</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> DDLogLevel s_ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@implementation</span> DDDynamicLogLevel</span><br><span class="line"></span><br><span class="line">+ (DDLogLevel)ddLogLevel &#123;</span><br><span class="line">    <span class="keyword">return</span> s_ddLogLevel;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="typename">void</span>)<span class="string">ddSetLogLevel:</span>(DDLogLevel)level &#123;</span><br><span class="line">    s_ddLogLevel = level;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@end</span></span><br></pre></td></tr></table></figure>
+<p>然后将之前定义的日志级别宏定义替换为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">ifdef</span> LOG_LEVEL_DEF</span></span><br><span class="line"><span class="preprocessor">#   <span class="keyword">undef</span> LOG_LEVEL_DEF</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> LOG_LEVEL_DEF [DDDynamicLogLevel ddLogLevel]</span></span><br></pre></td></tr></table></figure>
+<p>注意引入头文件<code>DDDynamicLogLevel.h</code>，再测试，</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="list">[<span class="keyword">DDDynamicLogLevel</span> ddSetLogLevel:DDLogLevelError]<span class="comment">;</span></span><br><span class="line">DDLogInfo<span class="list">(<span class="keyword">@</span><span class="string">"111 -- Info"</span>)</span><span class="comment">;</span></span><br><span class="line">DDLogError<span class="list">(<span class="keyword">@</span><span class="string">"11111111"</span>)</span><span class="comment">;</span></span><br><span class="line">    </span><br><span class="line"><span class="list">[<span class="keyword">DDDynamicLogLevel</span> ddSetLogLevel:DDLogLevelInfo]<span class="comment">;</span></span><br><span class="line">DDLogInfo<span class="list">(<span class="keyword">@</span><span class="string">"222 -- Info"</span>)</span><span class="comment">;</span></span><br><span class="line">DDLogError<span class="list">(<span class="keyword">@</span><span class="string">"222222222"</span>)</span><span class="comment">;</span></span></span></span><br></pre></td></tr></table></figure>
+<p>发现起作用了，打完收工~~~</p>
 <h2 id="结尾">结尾</h2><p>就到这里了，祝大家使用愉快！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/06/动态设置CocoaLumberjack的日志级别/" data-id="cinve20w3000s9i39pyu4e02j" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/06/动态设置CocoaLumberjack的日志级别/" data-id="cinvgwiad0003fb39dm3tbgsj" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CocoaLumberjack-iOS/">CocoaLumberjack, iOS</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CocoaLumberjack/">CocoaLumberjack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 
     </footer>
   </div>
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/05/06/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
   
   
     <a href="/2016/01/19/iOS项目一键打包脚本/" id="article-nav-older" class="article-nav-link-wrap">
@@ -162,7 +156,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CocoaLumberjack-iOS/">CocoaLumberjack, iOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo-优化访问速度/">Hexo, 优化访问速度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPA/">IPA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode-Jenkins/">Xcode, Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode-国际化/">Xcode, 国际化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/周星驰/">周星驰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/无聊/">无聊</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/轻松一刻/">轻松一刻</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CocoaLumberjack/">CocoaLumberjack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/">Xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/周星驰/">周星驰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/国际化/">国际化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/无聊/">无聊</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/轻松一刻/">轻松一刻</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -171,7 +165,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CocoaLumberjack-iOS/" style="font-size: 10px;">CocoaLumberjack, iOS</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo-优化访问速度/" style="font-size: 10px;">Hexo, 优化访问速度</a> <a href="/tags/IPA/" style="font-size: 10px;">IPA</a> <a href="/tags/Xcode-Jenkins/" style="font-size: 10px;">Xcode, Jenkins</a> <a href="/tags/Xcode-国际化/" style="font-size: 10px;">Xcode, 国际化</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/周星驰/" style="font-size: 10px;">周星驰</a> <a href="/tags/无聊/" style="font-size: 10px;">无聊</a> <a href="/tags/轻松一刻/" style="font-size: 10px;">轻松一刻</a>
+      <a href="/tags/CocoaLumberjack/" style="font-size: 10px;">CocoaLumberjack</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Package/" style="font-size: 10px;">Package</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Xcode/" style="font-size: 10px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/周星驰/" style="font-size: 10px;">周星驰</a> <a href="/tags/国际化/" style="font-size: 10px;">国际化</a> <a href="/tags/无聊/" style="font-size: 10px;">无聊</a> <a href="/tags/轻松一刻/" style="font-size: 10px;">轻松一刻</a>
     </div>
   </div>
 
@@ -180,7 +174,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -190,6 +184,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/05/06/hello-world/">Hello World</a>
+          </li>
         
           <li>
             <a href="/2016/05/06/动态设置CocoaLumberjack的日志级别/">动态设置CocoaLumberjack的日志级别</a>
@@ -205,10 +203,6 @@
         
           <li>
             <a href="/2015/12/05/iOS-App图标自动加上版本号等自定义信息/">iOS App图标自动加上版本号等自定义信息</a>
-          </li>
-        
-          <li>
-            <a href="/2015/12/04/XCode7下的APP名字国际化/">XCode7下的APP名字国际化</a>
           </li>
         
       </ul>
