@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="sytuzhouyong's blog">
 <meta property="og:description" content="使用场景在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要DDLogLevelVerbose级别，执行完成后需要DDLogLevelInfo级别，这时候之前的日志级别设置就没有能力来实现.
 之前的实现12345#if DEBUG    static const DDLogLevel ddLogLevel = DDLogLevelVerbose;#else    static">
-<meta property="og:updated_time" content="2016-05-06T08:30:39.000Z">
+<meta property="og:updated_time" content="2016-05-06T09:53:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="动态设置CocoaLumberjack的日志级别">
 <meta name="twitter:description" content="使用场景在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要DDLogLevelVerbose级别，执行完成后需要DDLogLevelInfo级别，这时候之前的日志级别设置就没有能力来实现.
@@ -96,7 +96,7 @@
 <p>去掉了<code>const</code>修饰符，然后随便在一个按钮响应函数里面设置成</p>
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ddLogLevel = DDLogLevelError<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <p>测试了下，点击了按钮，发现没有作用，只能另外再找方法。</p>
-<p>####DDRegisteredDynamicLogging<br>后来在翻看<code>DDLog.h</code>文件时发现了<code>DDRegisteredDynamicLogging</code>这个协议，里面提供了2个静态方法</p>
+<h4 id="DDRegisteredDynamicLogging">DDRegisteredDynamicLogging</h4><p>后来在翻看<code>DDLog.h</code>文件时发现了<code>DDRegisteredDynamicLogging</code>这个协议，里面提供了2个静态方法</p>
 <figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ <span class="comment">(DDLogLevel)</span>ddLogLevel;</span><br><span class="line">+ <span class="comment">(void)</span>ddSetLogLevel:<span class="comment">(DDLogLevel)</span>level;</span><br></pre></td></tr></table></figure>
 <p>里面还有段说明文字：</p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Implement these methods <span class="keyword">to</span> allow a <span class="type">file</span>'s <span class="command">log</span> level</span><br><span class="line"> <span class="keyword">to</span> be managed <span class="keyword">from</span> a central location.</span><br><span class="line"></span><br><span class="line">This <span class="keyword">is</span> useful <span class="keyword">if</span> you'd like <span class="keyword">to</span> be able <span class="keyword">to</span> change <span class="command">log</span> levels <span class="keyword">for</span></span><br><span class="line"> various parts  <span class="keyword">of</span> your code <span class="keyword">from</span> within <span class="keyword">the</span> <span class="property">running</span> <span class="type">application</span>.  </span><br><span class="line"></span><br><span class="line">Imagine pulling up <span class="keyword">the</span> settings <span class="keyword">for</span> your <span class="type">application</span>, </span><br><span class="line"><span class="keyword">and</span> being able <span class="keyword">to</span> configure <span class="keyword">the</span> logging level <span class="function_start"><span class="keyword">on</span></span> a per <span class="type">file</span> basis.</span><br></pre></td></tr></table></figure>
@@ -115,7 +115,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/06/动态设置CocoaLumberjack的日志级别/" data-id="cinvgwiad0003fb39dm3tbgsj" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/06/动态设置CocoaLumberjack的日志级别/" data-id="cinvjnflc000eif39x1gaqh34" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CocoaLumberjack/">CocoaLumberjack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
