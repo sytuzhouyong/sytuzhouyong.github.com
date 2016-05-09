@@ -65,10 +65,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-RunLoop-NSTimer-结合使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/05/06/hello-world/" class="article-date">
-  <time datetime="2016-05-06T09:20:17.000Z" itemprop="datePublished">2016-05-06</time>
+    <a href="/2016/05/09/RunLoop-NSTimer-结合使用/" class="article-date">
+  <time datetime="2016-05-09T11:18:52.000Z" itemprop="datePublished">2016-05-09</time>
 </a>
     
   </div>
@@ -79,7 +79,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/06/hello-world/">Hello World</a>
+      <a class="article-title" href="/2016/05/09/RunLoop-NSTimer-结合使用/">RunLoop &amp; NSTimer 结合使用</a>
     </h1>
   
 
@@ -87,25 +87,31 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-<h3 id="Add_tags_to_article">Add tags to article</h3><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tags</span>: <span class="string">[iOS, Xcode, xxx]</span></span><br></pre></td></tr></table></figure>
-<p><strong><em>注意</em></strong>：<br><code>tags</code>后面有一个空格，<code>tags</code>之间通过逗号进行分割。</p>
+        <p><code>NSTimer</code>有两种类型的初始化方法, 一种是<code>scheduledTimerWithXXX</code>, 一种是<code>timerWithXXX</code>.</p>
+<blockquote>
+<p>scheduledTimerWithXXX:<br>  Creates and returns a new NSTimer object and schedules it on the current run loop in the default mode.<br>  自动添加到<code>RunLoop</code>中.</p>
+</blockquote>
+<p>这一种方法只能在主线程中使用, 不需要调用<code>fire</code>函数, 也不能通过<code>NSRunLoop</code>的<code>addTimer</code>函数添加, 因为它会被自动添加到当前的<code>RunLoop</code>中.<br>例如下面的写法, 定时函数是不会调用的, 即使把<code>addTimer</code>那一行代码注释掉也不能正常调用定时函数.  </p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__weak __typeof<span class="list">(<span class="keyword">&amp;*self</span>)</span> weakself = self<span class="comment">;</span></span><br><span class="line">dispatch_async<span class="list">(<span class="keyword">dispatch_get_global_queue</span><span class="list">(<span class="number">0</span>, <span class="number">0</span>)</span>, ^&#123;</span><br><span class="line">    weakself.timer = [NSTimer scheduledTimerWithTimeInterval:<span class="number">2.0</span> target<span class="keyword">:self</span> selector:@selector<span class="list">(<span class="keyword">timerFired</span>)</span> userInfo<span class="keyword">:nil</span> repeats<span class="keyword">:YES</span>]<span class="comment">;</span></span><br><span class="line">    [[NSRunLoop mainRunLoop] addTimer<span class="keyword">:weakself</span>.timer forMode<span class="keyword">:NSRunLoopCommonModes</span>]<span class="comment">;</span></span><br><span class="line">&#125;)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>要想正常运行，只需要把<code>scheduledTimerWithXXX</code>换成<code>timerWithXXX</code>即可.</p>
+<blockquote>
+<p>timerWithXXX:<br>  Creates and returns a new NSTimer object initialized with the specified object and selector.<br>  初始化<code>NSTimer</code>, 需要手动添加到<code>RunLoop</code>中. </p>
+</blockquote>
+<p>当在主线程中初始化时, 如下代码:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.timer</span> = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">2.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerFired) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">[<span class="keyword">self</span><span class="variable">.timer</span> fire];</span><br></pre></td></tr></table></figure>
+<p>需要调用<code>fire</code>函数才能触发. 而且不管<code>repeats</code>为<code>YES</code>还是<code>NO</code>, 都只触发一次定时函数.<br>正确的使用范例如下:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__<span class="keyword">weak</span> __<span class="keyword">typeof</span>(&amp;*<span class="keyword">self</span>) weakself = <span class="keyword">self</span>;</span><br><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    weakself<span class="variable">.timer</span> = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">2.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerFired) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:weakself<span class="variable">.timer</span> forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] run]; <span class="comment">// 这一句不能少, 是为了保持线程运行</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>摘自: <a href="http://www.cnblogs.com/liyang31tg/p/3662557.html" target="_blank" rel="external">www.cnblogs.com/liyang31tg/p/3662557.html</a><br>NSRunLoop的理解，每一个线程都有一个NSRunLoop对象，然而定时器也是在这个对象上面运行的，当一个线程运行完成了过后，会自动关闭线程，自然NSRunLoop也会被销毁，自然定时器就不会运行，为了不让其线程关闭，用此语句   [[NSRunLoop currentRunLoop] run]; 那么线程就会保持活跃状态(前提是这个线程里面还有需要被执行的东西，比如说定时器,网络请求等(经过测试的，网络请求，GCD也一样), (这可能是一种优化，单凭这句话，还不能将此线程保持活跃，必须有需要执行的东西)，不会被关闭，自然定时器也就能用了.</p>
+</blockquote>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/06/hello-world/" data-id="cinvjnflo000wif39nd5221n8" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/09/RunLoop-NSTimer-结合使用/" data-id="cinzx5h6d0015cc399pt4sad3" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NSTimer/">NSTimer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RunLoop/">RunLoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 
     </footer>
   </div>
@@ -116,7 +122,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -129,7 +135,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CocoaLumberjack/">CocoaLumberjack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/">Xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/周星驰/">周星驰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/国际化/">国际化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/无聊/">无聊</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/轻松一刻/">轻松一刻</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CocoaLumberjack/">CocoaLumberjack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NSTimer/">NSTimer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RunLoop/">RunLoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/">Xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/周星驰/">周星驰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/国际化/">国际化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/无聊/">无聊</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/轻松一刻/">轻松一刻</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -138,7 +144,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CocoaLumberjack/" style="font-size: 10px;">CocoaLumberjack</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Package/" style="font-size: 10px;">Package</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Xcode/" style="font-size: 10px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/周星驰/" style="font-size: 10px;">周星驰</a> <a href="/tags/国际化/" style="font-size: 10px;">国际化</a> <a href="/tags/无聊/" style="font-size: 10px;">无聊</a> <a href="/tags/轻松一刻/" style="font-size: 10px;">轻松一刻</a>
+      <a href="/tags/CocoaLumberjack/" style="font-size: 10px;">CocoaLumberjack</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/NSTimer/" style="font-size: 10px;">NSTimer</a> <a href="/tags/Package/" style="font-size: 10px;">Package</a> <a href="/tags/RunLoop/" style="font-size: 10px;">RunLoop</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Xcode/" style="font-size: 10px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/周星驰/" style="font-size: 10px;">周星驰</a> <a href="/tags/国际化/" style="font-size: 10px;">国际化</a> <a href="/tags/无聊/" style="font-size: 10px;">无聊</a> <a href="/tags/轻松一刻/" style="font-size: 10px;">轻松一刻</a>
     </div>
   </div>
 
@@ -147,7 +153,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -157,6 +163,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/05/09/RunLoop-NSTimer-结合使用/">RunLoop &amp; NSTimer 结合使用</a>
+          </li>
         
           <li>
             <a href="/2016/05/06/hello-world/">Hello World</a>
@@ -172,10 +182,6 @@
         
           <li>
             <a href="/2016/01/08/将hexo同时备份到GitHub和GitCafe上/">将hexo同时备份到GitHub和GitCafe上</a>
-          </li>
-        
-          <li>
-            <a href="/2015/12/05/iOS-App图标自动加上版本号等自定义信息/">iOS App图标自动加上版本号等自定义信息</a>
           </li>
         
       </ul>
