@@ -88,27 +88,27 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><code>NSTimer</code>有两种类型的初始化方法, 一种是<code>scheduledTimerWithXXX</code>, 一种是<code>timerWithXXX</code>.</p>
-<blockquote>
-<p>scheduledTimerWithXXX:<br>  Creates and returns a new NSTimer object and schedules it on the current run loop in the default mode.<br>  自动添加到<code>RunLoop</code>中.</p>
-</blockquote>
+<ul>
+<li>scheduledTimerWithXXX:<br>Creates and returns a new NSTimer object and schedules it on the current run loop in the default mode.<br>自动添加到<code>RunLoop</code>中.</li>
+</ul>
 <p>这一种方法只能在主线程中使用, 不需要调用<code>fire</code>函数, 也不能通过<code>NSRunLoop</code>的<code>addTimer</code>函数添加, 因为它会被自动添加到当前的<code>RunLoop</code>中.<br>例如下面的写法, 定时函数是不会调用的, 即使把<code>addTimer</code>那一行代码注释掉也不能正常调用定时函数.  </p>
 <figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__weak __typeof<span class="list">(<span class="keyword">&amp;*self</span>)</span> weakself = self<span class="comment">;</span></span><br><span class="line">dispatch_async<span class="list">(<span class="keyword">dispatch_get_global_queue</span><span class="list">(<span class="number">0</span>, <span class="number">0</span>)</span>, ^&#123;</span><br><span class="line">    weakself.timer = [NSTimer scheduledTimerWithTimeInterval:<span class="number">2.0</span> target<span class="keyword">:self</span> selector:@selector<span class="list">(<span class="keyword">timerFired</span>)</span> userInfo<span class="keyword">:nil</span> repeats<span class="keyword">:YES</span>]<span class="comment">;</span></span><br><span class="line">    [[NSRunLoop mainRunLoop] addTimer<span class="keyword">:weakself</span>.timer forMode<span class="keyword">:NSRunLoopCommonModes</span>]<span class="comment">;</span></span><br><span class="line">&#125;)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <p>要想正常运行，只需要把<code>scheduledTimerWithXXX</code>换成<code>timerWithXXX</code>即可.</p>
-<blockquote>
-<p>timerWithXXX:<br>  Creates and returns a new NSTimer object initialized with the specified object and selector.<br>  初始化<code>NSTimer</code>, 需要手动添加到<code>RunLoop</code>中. </p>
-</blockquote>
+<ul>
+<li>timerWithXXX:<br>Creates and returns a new NSTimer object initialized with the specified object and selector.<br>初始化<code>NSTimer</code>, 需要手动添加到<code>RunLoop</code>中. </li>
+</ul>
 <p>当在主线程中初始化时, 如下代码:</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.timer</span> = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">2.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerFired) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">[<span class="keyword">self</span><span class="variable">.timer</span> fire];</span><br></pre></td></tr></table></figure>
 <p>需要调用<code>fire</code>函数才能触发. 而且不管<code>repeats</code>为<code>YES</code>还是<code>NO</code>, 都只触发一次定时函数.<br>正确的使用范例如下:</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__<span class="keyword">weak</span> __<span class="keyword">typeof</span>(&amp;*<span class="keyword">self</span>) weakself = <span class="keyword">self</span>;</span><br><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    weakself<span class="variable">.timer</span> = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">2.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerFired) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:weakself<span class="variable">.timer</span> forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] run]; <span class="comment">// 这一句不能少, 是为了保持线程运行</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>摘自: <a href="http://www.cnblogs.com/liyang31tg/p/3662557.html" target="_blank" rel="external">www.cnblogs.com/liyang31tg/p/3662557.html</a><br>NSRunLoop的理解，每一个线程都有一个NSRunLoop对象，然而定时器也是在这个对象上面运行的，当一个线程运行完成了过后，会自动关闭线程，自然NSRunLoop也会被销毁，自然定时器就不会运行，为了不让其线程关闭，用此语句   [[NSRunLoop currentRunLoop] run]; 那么线程就会保持活跃状态(前提是这个线程里面还有需要被执行的东西，比如说定时器,网络请求等(经过测试的，网络请求，GCD也一样), (这可能是一种优化，单凭这句话，还不能将此线程保持活跃，必须有需要执行的东西)，不会被关闭，自然定时器也就能用了.</p>
-</blockquote>
+<ul>
+<li>下面这段话摘自: <a href="http://www.cnblogs.com/liyang31tg/p/3662557.html" target="_blank" rel="external">www.cnblogs.com/liyang31tg/p/3662557.html</a><br>NSRunLoop的理解，每一个线程都有一个NSRunLoop对象，然而定时器也是在这个对象上面运行的，当一个线程运行完成了过后，会自动关闭线程，自然NSRunLoop也会被销毁，自然定时器就不会运行，为了不让其线程关闭，用此语句   [[NSRunLoop currentRunLoop] run]; 那么线程就会保持活跃状态(前提是这个线程里面还有需要被执行的东西，比如说定时器,网络请求等(经过测试的，网络请求，GCD也一样), (这可能是一种优化，单凭这句话，还不能将此线程保持活跃，必须有需要执行的东西)，不会被关闭，自然定时器也就能用了.</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/09/RunLoop-NSTimer-结合使用/" data-id="cinzx5h6d0015cc399pt4sad3" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/09/RunLoop-NSTimer-结合使用/" data-id="cinzxhjix0015dr39t9oszej6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NSTimer/">NSTimer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RunLoop/">RunLoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
