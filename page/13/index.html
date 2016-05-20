@@ -8,7 +8,7 @@
   <meta name="description" content="无人">
 <meta property="og:type" content="website">
 <meta property="og:title" content="sytuzhouyong's blog">
-<meta property="og:url" content="http://sytuzhouyong.gitcafe.io/page/6/index.html">
+<meta property="og:url" content="http://sytuzhouyong.gitcafe.io/page/13/index.html">
 <meta property="og:site_name" content="sytuzhouyong's blog">
 <meta property="og:description" content="无人">
 <meta name="twitter:card" content="summary">
@@ -65,10 +65,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-将hexo同时备份到GitHub和GitCafe上" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Hexo优化访问速度" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/01/08/将hexo同时备份到GitHub和GitCafe上/" class="article-date">
-  <time datetime="2016-01-08T09:16:08.000Z" itemprop="datePublished">2016-01-08</time>
+    <a href="/2015/11/15/Hexo优化访问速度/" class="article-date">
+  <time datetime="2015-11-15T04:17:35.000Z" itemprop="datePublished">2015-11-15</time>
 </a>
     
   </div>
@@ -79,7 +79,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/08/将hexo同时备份到GitHub和GitCafe上/">将hexo同时备份到GitHub和GitCafe上</a>
+      <a class="article-title" href="/2015/11/15/Hexo优化访问速度/">优化Hexo的访问速度</a>
     </h1>
   
 
@@ -87,19 +87,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li>首先在<code>GitHub</code>上的<code>master</code>分支上新建一个仓，叫<code>yourname.github.io</code>, <code>GitCafe</code>上新建一个分支叫<code>gitcafe-pages</code>, 在此分支上新建一个<code>yourname</code>的仓</li>
-<li><p>在hexo根目录下的配置文件<code>_config.yml</code>里面的<code>deploy:</code>里面的配置改成</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repo</span>:</span><br><span class="line">    <span class="attribute">github</span>: <span class="attribute">https</span>:<span class="comment">//github.com/sytuzhouyong/sytuzhouyong.github.io.git,master</span></span><br><span class="line">    <span class="attribute">gitcafe</span>: <span class="attribute">https</span>:<span class="comment">//gitcafe.com/sytuzhouyong/sytuzhouyong.git,gitcafe-pages</span></span><br></pre></td></tr></table></figure>
-<p>之后执行<code>hexo deploy</code>时就会同时向2个库提交修改。</p>
-</li>
-</ol>
+        <p>　　今天刚把<code>hexo</code>部署到<code>GitCafe</code>上后发现，页面基本上已经加载完了，但是浏览器还是在不停的转圈，而且持续很长时间，估计是什么资源请求不到的原因。<br>　　后来我用<code>Chrome</code>浏览器的<code>Develop Tools</code>工具看了下，发现是在请求<code>jquery.min.js</code>上卡住了，所以就找了个国内网站上的<code>jquery.min.js</code>，如<code>sina</code>的，地址是：<code>lib.sinaapp.com/js/jquery/2.0/jquery.min.js</code>，最后部署上去发现果然很快，再也没有出现转圈的情况了。<br>　　修改<code>jquery.min.js</code>地址的文件：<code>blog的根目录/thems/当前主题(landscape)/layout/_partial/after-footer.ejs</code>中。<br>　　修改完成后发现Github上的博客访问速度也加快了，用同样的方法一查，果然也是这个脚本文件捣的鬼。关于如何同时部署到两个Git仓上，请见<a href="http://sytuzhouyong.gitcafe.io/">这里</a>。</p>
 <hr>
-<h2 id="祝您使用愉快！">祝您使用愉快！</h2>
+<h3 id="目前遇到的问题">目前遇到的问题</h3><ol>
+<li><p>每次我<code>hexo deploy</code>的时候都出错，<br><img src="http://7xoc0c.com1.z0.glb.clouddn.com/hexo_delopy_error_001.png" alt=""><br>改成<code>sudo hexo deploy</code>后，输入密码就可以了，暂时还不知道什么原因，知道的朋友可以告诉下！</p>
+</li>
+<li><p>配置<code>gitcafe ssh</code>后<code>ssh -T git@gitcafe.com</code>提示<code>Permission denied (publickey).</code>，说要修改<code>sshd-config</code>文件的配置，可是修改了后发现<code>service sshd restart</code>怎么也运行不了，报错：<code>service command not found</code>，可是我已经在<code>root</code>用户下，按照<a href="http://renshuming8231.blog.163.com/blog/static/12948376520129228462649/" target="_blank" rel="external">网上教程</a>说的，<code>Linux</code>命令还是不熟悉，找个机会要补补了，好烦！</p>
+</li>
+<li><p>好好熟悉<code>hexo</code>和<code>markdown</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello, Hexo!</span><br></pre></td></tr></table></figure></li>
+</ol>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2016/01/08/将hexo同时备份到GitHub和GitCafe上/" data-id="ciofhc1rf000gud394oguzk12" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2015/11/15/Hexo优化访问速度/" data-id="ciofhc1qp0000ud39p7jvq1ma" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
@@ -113,7 +115,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span>
     </nav>
   
 </section>
