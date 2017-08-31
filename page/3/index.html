@@ -65,10 +65,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-随心所欲的添加Xcode编译参数" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/05/06/hello-world/" class="article-date">
-  <time datetime="2016-05-06T09:20:17.000Z" itemprop="datePublished">2016-05-06</time>
+    <a href="/2016/05/20/随心所欲的添加Xcode编译参数/" class="article-date">
+  <time datetime="2016-05-20T08:42:01.000Z" itemprop="datePublished">2016-05-20</time>
 </a>
     
   </div>
@@ -79,7 +79,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/06/hello-world/">Hello World</a>
+      <a class="article-title" href="/2016/05/20/随心所欲的添加Xcode编译参数/">随心所欲的添加Xcode编译参数</a>
     </h1>
   
 
@@ -87,25 +87,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-<h3 id="Add_tags_to_article">Add tags to article</h3><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tags</span>: <span class="string">[iOS, Xcode, xxx]</span></span><br></pre></td></tr></table></figure>
-<p><strong><em>注意</em></strong>：<br><code>tags</code>后面有一个空格，<code>tags</code>之间通过逗号进行分割。</p>
+        <p>最近在做一个打包iOS项目的小工具，在打包的过程中遇到了一个错误，导致打包失败，如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/336941-6fac99c909b8212c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="GenerateDSYMFile_Error.png"></p>
+<p>后来在StackOverflow上找到答案，<code>Build Settings</code>-&gt;<code>Build Options</code>-&gt;<code>Debug Information Format</code>下对应的<code>Configuration</code>下的<code>DWARF with dSYM file</code>改成<code>DWARF</code>，如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/336941-4c61fe7abd1ef98a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DebugInformationFormat.png"></p>
+<p>改了后试了下，果然错误没有了，打包成功。但是有一个问题，不能让别人用这个工具的时候都自己去手动设置下这个配置吧，这算什么<a href="https://github.com/sytuzhouyong/EasyPackage" target="_blank" rel="external">EasyPackage</a>？能不能工具在编译的时候就加上这个参数呢？一想，既然工程中能够设置，说明在工程文件中肯定有这个配置项存在啊，所以就打开打包项目中的<code>project.pbxproj</code>文件，先把文件还原成默认的，搜索<code>dsym</code>，果然存在，如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/336941-f669752b4207c391.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dYSM.png"></p>
+<p>知道了，编译参数叫<code>DEBUG_INFORMATION_FORMAT</code>，然后把这个参数放到我自己的编译任务中去，一跑，O了，O(∩_∩)O哈哈~。</p>
+<p>类推下去，其实工程中能看到的选项都可以支持，要编译参数和值都正确，而所有的参数都在<code>project.pbxproj</code>这个文件中，所以想怎么玩都可以，Enjoy it~</p>
+<p>PS.<br>  欢迎大家使用我的<a href="https://github.com/sytuzhouyong/EasyPackage" target="_blank" rel="external">EasyPackage</a>，有问题随时联系我~</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/06/hello-world/" data-id="ciofhc1rw0010ud39vl1mck9l" class="article-share-link">Share</a>
+      <a data-url="http://sytuzhouyong.gitcafe.io/2016/05/20/随心所欲的添加Xcode编译参数/" data-id="cj70o6ex90003dl39pxs3sd6l" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Package/">Package</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Xcode/">Xcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 
     </footer>
   </div>
@@ -116,7 +114,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -129,7 +127,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CocoaLumberjack/">CocoaLumberjack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NSTimer/">NSTimer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RunLoop/">RunLoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/">Xcode</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/周星驰/">周星驰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/国际化/">国际化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/无聊/">无聊</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/轻松一刻/">轻松一刻</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CocoaLumberjack/">CocoaLumberjack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NSTimer/">NSTimer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package/">Package</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RunLoop/">RunLoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/">Xcode</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/周星驰/">周星驰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/国际化/">国际化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/无聊/">无聊</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/轻松一刻/">轻松一刻</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -138,7 +136,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CocoaLumberjack/" style="font-size: 10px;">CocoaLumberjack</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/NSTimer/" style="font-size: 10px;">NSTimer</a> <a href="/tags/Package/" style="font-size: 13.33px;">Package</a> <a href="/tags/RunLoop/" style="font-size: 10px;">RunLoop</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Xcode/" style="font-size: 13.33px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/周星驰/" style="font-size: 10px;">周星驰</a> <a href="/tags/国际化/" style="font-size: 10px;">国际化</a> <a href="/tags/无聊/" style="font-size: 10px;">无聊</a> <a href="/tags/轻松一刻/" style="font-size: 10px;">轻松一刻</a>
+      <a href="/tags/CocoaLumberjack/" style="font-size: 10px;">CocoaLumberjack</a> <a href="/tags/Git/" style="font-size: 13.33px;">Git</a> <a href="/tags/Hexo/" style="font-size: 16.67px;">Hexo</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/NSTimer/" style="font-size: 10px;">NSTimer</a> <a href="/tags/Package/" style="font-size: 13.33px;">Package</a> <a href="/tags/RunLoop/" style="font-size: 10px;">RunLoop</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Xcode/" style="font-size: 13.33px;">Xcode</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/周星驰/" style="font-size: 10px;">周星驰</a> <a href="/tags/国际化/" style="font-size: 10px;">国际化</a> <a href="/tags/无聊/" style="font-size: 10px;">无聊</a> <a href="/tags/轻松一刻/" style="font-size: 10px;">轻松一刻</a>
     </div>
   </div>
 
@@ -147,7 +145,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -159,6 +157,14 @@
       <ul>
         
           <li>
+            <a href="/2017/09/01/《Git-权威指南》读书笔记/">《Git 权威指南》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/01/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
             <a href="/2016/05/20/随心所欲的添加Xcode编译参数/">随心所欲的添加Xcode编译参数</a>
           </li>
         
@@ -167,15 +173,7 @@
           </li>
         
           <li>
-            <a href="/2016/05/06/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
             <a href="/2016/05/06/动态设置CocoaLumberjack的日志级别/">动态设置CocoaLumberjack的日志级别</a>
-          </li>
-        
-          <li>
-            <a href="/2016/01/19/iOS项目一键打包脚本/">iOS项目一键打包脚本</a>
           </li>
         
       </ul>
@@ -192,7 +190,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 sytuzhouyong<br>
+      &copy; 2017 sytuzhouyong<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
