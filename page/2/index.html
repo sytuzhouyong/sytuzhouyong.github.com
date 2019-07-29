@@ -255,7 +255,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">14</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">17</span></a>
 
   </li>
         
@@ -273,7 +273,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">2</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">3</span></a>
 
   </li>
         
@@ -291,7 +291,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">14</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">16</span></a>
 
   </li>
 
@@ -346,7 +346,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/05/20/随心所欲的添加Xcode编译参数/">
+    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2019/07/11/【HTTP图解】笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sytuzhouyong">
@@ -366,7 +366,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2016/05/20/随心所欲的添加Xcode编译参数/" class="post-title-link" itemprop="url">随心所欲的添加Xcode编译参数</a>
+                <a href="/2019/07/11/【HTTP图解】笔记/" class="post-title-link" itemprop="url">【HTTP图解】笔记</a>
               
             
           </h1>
@@ -391,7 +391,7 @@
                 
               
 
-              <time title="Created: 2016-05-20 16:42:01 / Modified: 16:44:45" itemprop="dateCreated datePublished" datetime="2016-05-20T16:42:01+08:00">2016-05-20</time>
+              <time title="Created: 2019-07-11 17:26:11" itemprop="dateCreated datePublished" datetime="2019-07-11T17:26:11+08:00">2019-07-11</time>
             </span>
           
 
@@ -399,8 +399,33 @@
             
 
             
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-29 14:44:10" itemprop="dateModified" datetime="2019-07-29T14:44:10+08:00">2019-07-29</time>
+              </span>
+            
           
 
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络/" itemprop="url" rel="index"><span itemprop="name">网络</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -437,15 +462,63 @@
       
         
           
-            <p>最近在做一个打包iOS项目的小工具，在打包的过程中遇到了一个错误，导致打包失败，如下图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/336941-6fac99c909b8212c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="GenerateDSYMFile_Error.png"></p>
-<p>后来在StackOverflow上找到答案，<code>Build Settings</code>-&gt;<code>Build Options</code>-&gt;<code>Debug Information Format</code>下对应的<code>Configuration</code>下的<code>DWARF with dSYM file</code>改成<code>DWARF</code>，如下图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/336941-4c61fe7abd1ef98a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DebugInformationFormat.png"></p>
-<p>改了后试了下，果然错误没有了，打包成功。但是有一个问题，不能让别人用这个工具的时候都自己去手动设置下这个配置吧，这算什么<a href="https://github.com/sytuzhouyong/EasyPackage" target="_blank" rel="noopener">EasyPackage</a>？能不能工具在编译的时候就加上这个参数呢？一想，既然工程中能够设置，说明在工程文件中肯定有这个配置项存在啊，所以就打开打包项目中的<code>project.pbxproj</code>文件，先把文件还原成默认的，搜索<code>dsym</code>，果然存在，如下图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/336941-f669752b4207c391.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dYSM.png"></p>
-<p>知道了，编译参数叫<code>DEBUG_INFORMATION_FORMAT</code>，然后把这个参数放到我自己的编译任务中去，一跑，O了，O(∩_∩)O哈哈~。</p>
-<p>类推下去，其实工程中能看到的选项都可以支持，要编译参数和值都正确，而所有的参数都在<code>project.pbxproj</code>这个文件中，所以想怎么玩都可以，Enjoy it~</p>
-<p>PS.<br>  欢迎大家使用我的<a href="https://github.com/sytuzhouyong/EasyPackage" target="_blank" rel="noopener">EasyPackage</a>，有问题随时联系我~</p>
+            <h1 id="分层结构"><a href="#分层结构" class="headerlink" title="分层结构"></a>分层结构</h1><h3 id="4层模型：-从上往下"><a href="#4层模型：-从上往下" class="headerlink" title="4层模型：(从上往下)"></a>4层模型：(从上往下)</h3><pre><code>* 应用层 （HTTP，FTP）
+* 传输层 （TCP, UDP）
+* 网络层  (IP)
+* 链路层  (ARP)</code></pre><h3 id="返回结果的HTTP状态码"><a href="#返回结果的HTTP状态码" class="headerlink" title="返回结果的HTTP状态码"></a>返回结果的HTTP状态码</h3><h4 id="2XX-成功"><a href="#2XX-成功" class="headerlink" title="2XX 成功"></a>2XX 成功</h4><ol>
+<li>200<br> OK 请求成功</li>
+<li>204<br> No Content，请求成功，但没有资源返回</li>
+<li>206<br> Partial Content，范围请求，响应中包含由Content-range指定范围的实体内容  </li>
+</ol>
+<h4 id="3XX-重定向"><a href="#3XX-重定向" class="headerlink" title="3XX 重定向"></a>3XX 重定向</h4><ol>
+<li>301 永久重定向<br> 响应的location头部字段包含新的uri</li>
+<li>302 临时重定向  </li>
+<li>303 See Other<br>   请求的资源存在另一个URI，应使用<code>GET</code>方法定向或者请求的资源  </li>
+<li>304 Not Modified<br> 服务器资源未改变，可使用客户端未过期的缓存</li>
+</ol>
+<h4 id="4XX-客户端错误"><a href="#4XX-客户端错误" class="headerlink" title="4XX 客户端错误"></a>4XX 客户端错误</h4><ol>
+<li>400 Bad request<br> 请求报文中存在语法错误</li>
+<li>401 Unauthorized<br> 发送的请求需要通过HTTP认证(Basic, DIGEST)的信息。若之前已经进行过一次请求，表示用户认证失败</li>
+<li>403 Forbidden<br> 请求资源的访问被服务器拒绝了</li>
+<li>404 Not Found<br> 服务器上没有请求的资源  </li>
+</ol>
+<h4 id="5XX-服务器错误"><a href="#5XX-服务器错误" class="headerlink" title="5XX 服务器错误"></a>5XX 服务器错误</h4><ol>
+<li>500 Internal Server Error<br> 服务器在执行请求时发生错误</li>
+<li>503 Service Unavailable<br> 服务器暂时处于超负荷或正在停机维护</li>
+</ol>
+<h3 id="URI和URL"><a href="#URI和URL" class="headerlink" title="URI和URL"></a>URI和URL</h3><pre><code>URI: Uniform Resource Identifier 统一资源标识符
+URL: Uniform Resource Locator 统一资源定位符
+URL是URI的子集</code></pre><h3 id="HTTP-加密-认证-完整性保护-HTTPS"><a href="#HTTP-加密-认证-完整性保护-HTTPS" class="headerlink" title="HTTP + 加密 + 认证 + 完整性保护 = HTTPS"></a>HTTP + 加密 + 认证 + 完整性保护 = HTTPS</h3><pre><code>SSL: Secure Socket Layer，独立于HTTP协议。
+TLS: Transport Layer Security 
+
+HTTP直接和TCP通信
+当使用SSL时，则变成先和SSL通信，再由SSL和TCP通信。
+HTTPS就是身披SSL协议外壳的HTTP
+
+|          |    | 应用HTTP  |
+|:--------:|:--:|:--------:|
+| 应用HTTP  | =&gt; |    SSL   |
+|    TCP   |    |    TCP   |
+|    IP    |    |    IP    |
+
+
+加密
+非对称加密：公开密钥，私有密钥。
+    用公开密钥加密，用私有密钥解密；杜绝了对称加密中分发密钥的风险</code></pre><h3 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h3><ol>
+<li><p>basic认证 基本认证  </p>
+<pre><code>a. 返回状态码401告知客户端需要进行认证
+b. 用户id和密码以 &lt;id&gt;:&lt;pwd&gt; 进行base64编码后，设置到HTTP头Authorization字段
+c. 认证成功则返回200以及请求资源的内容</code></pre></li>
+<li><p>DIGEST认证 摘要认证  </p>
+<pre><code>使用质询/响应方式
+一方先发送认证要求给另一方，  
+接着使用从另一方接收到的质询码计算生成响应码  
+最后将响应吗返还给对方进行认证的方式</code></pre></li>
+<li><p>SSL客户端认证</p>
+</li>
+<li><p>FormBase认证 基于表单认证</p>
+</li>
+</ol>
 
           
         
@@ -493,7 +566,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -537,7 +610,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -558,7 +631,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -603,7 +678,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

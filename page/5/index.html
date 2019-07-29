@@ -255,7 +255,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">14</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">17</span></a>
 
   </li>
         
@@ -273,7 +273,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">2</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">3</span></a>
 
   </li>
         
@@ -291,7 +291,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">14</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">16</span></a>
 
   </li>
 
@@ -346,7 +346,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/05/06/动态设置CocoaLumberjack的日志级别/">
+    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/05/09/RunLoop-NSTimer-结合使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sytuzhouyong">
@@ -366,7 +366,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2016/05/06/动态设置CocoaLumberjack的日志级别/" class="post-title-link" itemprop="url">动态设置CocoaLumberjack的日志级别</a>
+                <a href="/2016/05/09/RunLoop-NSTimer-结合使用/" class="post-title-link" itemprop="url">RunLoop & NSTimer 结合使用</a>
               
             
           </h1>
@@ -391,23 +391,13 @@
                 
               
 
-              <time title="Created: 2016-05-06 15:03:57" itemprop="dateCreated datePublished" datetime="2016-05-06T15:03:57+08:00">2016-05-06</time>
+              <time title="Created: 2016-05-09 19:18:52 / Modified: 19:29:57" itemprop="dateCreated datePublished" datetime="2016-05-09T19:18:52+08:00">2016-05-09</time>
             </span>
           
 
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-07-11 15:40:48" itemprop="dateModified" datetime="2019-07-11T15:40:48+08:00">2019-07-11</time>
-              </span>
             
           
 
@@ -447,37 +437,26 @@
       
         
           
-            <h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要<code>DDLogLevelVerbose</code>级别，执行完成后需要<code>DDLogLevelInfo</code>级别，这时候之前的日志级别设置就没有能力来实现.</p>
-<h4 id="之前的实现"><a href="#之前的实现" class="headerlink" title="之前的实现"></a>之前的实现</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> DEBUG</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+            <p><code>NSTimer</code>有两种类型的初始化方法, 一种是<code>scheduledTimerWithXXX</code>, 一种是<code>timerWithXXX</code>.</p>
+<ul>
+<li>scheduledTimerWithXXX:<br>Creates and returns a new NSTimer object and schedules it on the current run loop in the default mode.<br>自动添加到<code>RunLoop</code>中.</li>
+</ul>
+<p>这一种方法只能在主线程中使用, 不需要调用<code>fire</code>函数, 也不能通过<code>NSRunLoop</code>的<code>addTimer</code>函数添加, 因为它会被自动添加到当前的<code>RunLoop</code>中.<br>例如下面的写法, 定时函数是不会调用的, 即使把<code>addTimer</code>那一行代码注释掉也不能正常调用定时函数.  </p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__weak __typeof(<span class="name">&amp;*self</span>) weakself = self<span class="comment">;</span></span><br><span class="line">dispatch_async(<span class="name">dispatch_get_global_queue</span>(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    weakself.timer = [NSTimer scheduledTimerWithTimeInterval:<span class="number">2.0</span> target<span class="symbol">:self</span> selector:@selector(<span class="name">timerFired</span>) userInfo<span class="symbol">:nil</span> repeats<span class="symbol">:YES</span>]<span class="comment">;</span></span><br><span class="line">    [[NSRunLoop mainRunLoop] addTimer<span class="symbol">:weakself</span>.timer forMode<span class="symbol">:NSRunLoopCommonModes</span>]<span class="comment">;</span></span><br><span class="line">&#125;)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 
-<p>后面想到，是不是只要改变<code>ddLogLevel</code>的值就可以实现了呢？改成</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> DEBUG</span></span><br><span class="line">    <span class="keyword">static</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="keyword">static</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>要想正常运行，只需要把<code>scheduledTimerWithXXX</code>换成<code>timerWithXXX</code>即可.</p>
+<ul>
+<li>timerWithXXX:<br>Creates and returns a new NSTimer object initialized with the specified object and selector.<br>初始化<code>NSTimer</code>, 需要手动添加到<code>RunLoop</code>中. </li>
+</ul>
+<p>当在主线程中初始化时, 如下代码:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.timer = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">2.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerFired) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">[<span class="keyword">self</span>.timer fire];</span><br></pre></td></tr></table></figure>
 
-<p>去掉了<code>const</code>修饰符，然后随便在一个按钮响应函数里面设置成</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ddLogLevel</span> = DDLogLevelError<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>需要调用<code>fire</code>函数才能触发. 而且不管<code>repeats</code>为<code>YES</code>还是<code>NO</code>, 都只触发一次定时函数.<br>正确的使用范例如下:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__<span class="keyword">weak</span> __<span class="keyword">typeof</span>(&amp;*<span class="keyword">self</span>) weakself = <span class="keyword">self</span>;</span><br><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    weakself.timer = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">2.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerFired) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:weakself.timer forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] run]; <span class="comment">// 这一句不能少, 是为了保持线程运行</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<p>测试了下，点击了按钮，发现没有作用，只能另外再找方法。</p>
-<h4 id="DDRegisteredDynamicLogging"><a href="#DDRegisteredDynamicLogging" class="headerlink" title="DDRegisteredDynamicLogging"></a>DDRegisteredDynamicLogging</h4><p>后来在翻看<code>DDLog.h</code>文件时发现了<code>DDRegisteredDynamicLogging</code>这个协议，里面提供了2个静态方法</p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ <span class="comment">(DDLogLevel)</span>ddLogLevel;</span><br><span class="line">+ <span class="comment">(void)</span>ddSetLogLevel:<span class="comment">(DDLogLevel)</span>level;</span><br></pre></td></tr></table></figure>
-
-<p>里面还有段说明文字：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Implement these methods <span class="keyword">to</span> allow a <span class="built_in">file</span>'s <span class="built_in">log</span> level</span><br><span class="line"> <span class="keyword">to</span> be managed <span class="keyword">from</span> a central location.</span><br><span class="line"></span><br><span class="line">This <span class="keyword">is</span> useful <span class="keyword">if</span> you'd like <span class="keyword">to</span> be able <span class="keyword">to</span> change <span class="built_in">log</span> levels <span class="keyword">for</span></span><br><span class="line"> various parts  <span class="keyword">of</span> your code <span class="keyword">from</span> within <span class="keyword">the</span> <span class="built_in">running</span> <span class="built_in">application</span>.  </span><br><span class="line"></span><br><span class="line">Imagine pulling up <span class="keyword">the</span> settings <span class="keyword">for</span> your <span class="built_in">application</span>, </span><br><span class="line"><span class="keyword">and</span> being able <span class="keyword">to</span> configure <span class="keyword">the</span> logging level <span class="keyword">on</span> a per <span class="built_in">file</span> basis.</span><br></pre></td></tr></table></figure>
-
-<p>看样子貌似可以，说干就干。新建一个类，实现<code>DDRegisteredDynamicLogging</code>协议。  </p>
-<p>DDDynamicLogLevel.h</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">"DDLog.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">DDDynamicLogLevel</span> : <span class="title">NSObject</span> &lt;<span class="title">DDRegisteredDynamicLogging</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-
-<p>DDDynamicLogLevel.m<br><b>注意</b> 这里新建一个静态变量，用于动态控制日志级别</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> DDLogLevel s_ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"></span><br><span class="line"><span class="meta">@implementation</span> DDDynamicLogLevel</span><br><span class="line"></span><br><span class="line">+ (DDLogLevel)ddLogLevel &#123;</span><br><span class="line">    <span class="keyword">return</span> s_ddLogLevel;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)<span class="string">ddSetLogLevel:</span>(DDLogLevel)level &#123;</span><br><span class="line">    s_ddLogLevel = level;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br></pre></td></tr></table></figure>
-
-<p>然后将之前定义的日志级别宏定义替换为</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOG_LEVEL_DEF</span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">undef</span> LOG_LEVEL_DEF</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOG_LEVEL_DEF [DDDynamicLogLevel ddLogLevel]</span></span><br></pre></td></tr></table></figure>
-
-<p>注意引入头文件<code>DDDynamicLogLevel.h</code>，再测试，</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[DDDynamicLogLevel ddSetLogLevel:DDLogLevelError]</span>;</span><br><span class="line"><span class="selector-tag">DDLogInfo</span>(@<span class="string">"111 -- Info"</span>);</span><br><span class="line"><span class="selector-tag">DDLogError</span>(@<span class="string">"11111111"</span>);</span><br><span class="line">    </span><br><span class="line"><span class="selector-attr">[DDDynamicLogLevel ddSetLogLevel:DDLogLevelInfo]</span>;</span><br><span class="line"><span class="selector-tag">DDLogInfo</span>(@<span class="string">"222 -- Info"</span>);</span><br><span class="line"><span class="selector-tag">DDLogError</span>(@<span class="string">"222222222"</span>);</span><br></pre></td></tr></table></figure>
-
-<p>发现起作用了，打完收工<del>~</del></p>
-<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>就到这里了，祝大家使用愉快！</p>
+<ul>
+<li>下面这段话摘自: <a href="http://www.cnblogs.com/liyang31tg/p/3662557.html" target="_blank" rel="noopener">www.cnblogs.com/liyang31tg/p/3662557.html</a><br>NSRunLoop的理解，每一个线程都有一个NSRunLoop对象，然而定时器也是在这个对象上面运行的，当一个线程运行完成了过后，会自动关闭线程，自然NSRunLoop也会被销毁，自然定时器就不会运行，为了不让其线程关闭，用此语句   [[NSRunLoop currentRunLoop] run]; 那么线程就会保持活跃状态(前提是这个线程里面还有需要被执行的东西，比如说定时器,网络请求等(经过测试的，网络请求，GCD也一样), (这可能是一种优化，单凭这句话，还不能将此线程保持活跃，必须有需要执行的东西)，不会被关闭，自然定时器也就能用了.</li>
+</ul>
 
           
         
@@ -525,7 +504,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -569,7 +548,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -590,7 +569,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -635,7 +616,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

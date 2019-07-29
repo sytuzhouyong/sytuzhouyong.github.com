@@ -255,7 +255,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">14</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">17</span></a>
 
   </li>
         
@@ -273,7 +273,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">2</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">3</span></a>
 
   </li>
         
@@ -291,7 +291,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">14</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">16</span></a>
 
   </li>
 
@@ -346,7 +346,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2015/12/05/iOS-App图标自动加上版本号等自定义信息/">
+    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/01/19/iOS项目一键打包脚本/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sytuzhouyong">
@@ -366,7 +366,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2015/12/05/iOS-App图标自动加上版本号等自定义信息/" class="post-title-link" itemprop="url">iOS App图标自动加上版本号等自定义信息</a>
+                <a href="/2016/01/19/iOS项目一键打包脚本/" class="post-title-link" itemprop="url">iOS项目一键打包脚本</a>
               
             
           </h1>
@@ -391,7 +391,7 @@
                 
               
 
-              <time title="Created: 2015-12-05 20:32:02" itemprop="dateCreated datePublished" datetime="2015-12-05T20:32:02+08:00">2015-12-05</time>
+              <time title="Created: 2016-01-19 21:25:38" itemprop="dateCreated datePublished" datetime="2016-01-19T21:25:38+08:00">2016-01-19</time>
             </span>
           
 
@@ -406,7 +406,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2016-05-06 17:16:08" itemprop="dateModified" datetime="2016-05-06T17:16:08+08:00">2016-05-06</time>
+                <time title="Modified: 2016-05-06 17:10:57" itemprop="dateModified" datetime="2016-05-06T17:10:57+08:00">2016-05-06</time>
               </span>
             
           
@@ -448,11 +448,46 @@
         
           
             <ol>
-<li><p>XCode版本   </p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">IFS</span>=$'\n'</span><br><span class="line"><span class="attribute">buildNumber</span>=$(/usr/libexec/PlistBuddy -c <span class="string">"Print CFBundleVersion"</span> <span class="string">"<span class="variable">$&#123;PROJECT_DIR&#125;</span>/<span class="variable">$&#123;INFOPLIST_FILE&#125;</span>"</span>)</span><br><span class="line"><span class="attribute">versionNumber</span>=$(/usr/libexec/PlistBuddy -c <span class="string">"Print CFBundleShortVersionString"</span> <span class="string">"<span class="variable">$&#123;PROJECT_DIR&#125;</span>/<span class="variable">$&#123;INFOPLIST_FILE&#125;</span>"</span>)</span><br><span class="line"><span class="attribute">PATH</span>=<span class="variable">$&#123;PATH&#125;</span>:/usr/local/bin</span><br><span class="line"></span><br><span class="line">function generateIcon () &#123;</span><br><span class="line">    <span class="attribute">BASE_IMAGE_NAME</span>=<span class="variable">$1</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">TARGET_PATH</span>=<span class="string">"<span class="variable">$&#123;BUILT_PRODUCTS_DIR&#125;</span>/<span class="variable">$&#123;UNLOCALIZED_RESOURCES_FOLDER_PATH&#125;</span>/<span class="variable">$&#123;BASE_IMAGE_NAME&#125;</span>"</span></span><br><span class="line">    echo <span class="variable">$TARGET_PATH</span></span><br><span class="line">    echo <span class="variable">$SRCROOT</span></span><br><span class="line">    echo $(<span class="builtin-name">find</span> <span class="variable">$&#123;SRCROOT&#125;</span> -name <span class="string">"AppIcon120x120.png"</span>)</span><br><span class="line">    <span class="attribute">BASE_IMAGE_PATH</span>=$(find <span class="variable">$&#123;SRCROOT&#125;</span> -name <span class="variable">$&#123;BASE_IMAGE_NAME&#125;</span>)</span><br><span class="line">    <span class="attribute">WIDTH</span>=$(identify -format %w <span class="variable">$&#123;BASE_IMAGE_PATH&#125;</span>)</span><br><span class="line">    <span class="attribute">FONT_SIZE</span>=$(echo <span class="string">"<span class="variable">$WIDTH</span> * .15"</span> | bc -l)</span><br><span class="line">    echo <span class="string">"font size <span class="variable">$FONT_SIZE</span>"</span></span><br><span class="line">    </span><br><span class="line">    # <span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;CONFIGURATION&#125;</span>"</span> == <span class="string">"Debug"</span> ]; then</span><br><span class="line">    # convert debugRibbon.png -resize <span class="variable">$&#123;WIDTH&#125;</span>x<span class="variable">$&#123;WIDTH&#125;</span> resizedRibbon.png</span><br><span class="line">    # convert <span class="variable">$&#123;BASE_IMAGE_PATH&#125;</span> -fill white -font Times-Bold -pointsize <span class="variable">$&#123;FONT_SIZE&#125;</span> -gravity south -annotate 0 <span class="string">"<span class="variable">$buildNumber</span>"</span> - | composite resizedRibbon.png - <span class="variable">$&#123;TARGET_PATH&#125;</span></span><br><span class="line">    # fi</span><br><span class="line"></span><br><span class="line">    convert <span class="variable">$&#123;BASE_IMAGE_PATH&#125;</span> -fill white -font Times-Bold -pointsize <span class="variable">$&#123;FONT_SIZE&#125;</span> -gravity south -annotate 0 <span class="string">"<span class="variable">$versionNumber</span>.<span class="variable">$buildNumber</span>"</span> - | convert -fill yellow -font Times-Bold -pointsize <span class="variable">$&#123;FONT_SIZE&#125;</span> -gravity north -annotate 0 <span class="string">"<span class="variable">$&#123;CONFIGURATION&#125;</span>"</span> - <span class="variable">$&#123;TARGET_PATH&#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">generateIcon <span class="string">"AppIcon60x60@2x.png"</span></span><br><span class="line">generateIcon <span class="string">"AppIcon60x60@3x.png"</span></span><br></pre></td></tr></table></figure>
+<li>定义一系列变量 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ProjectRootDir=<span class="string">"<span class="variable">$(PWD)</span>"</span></span><br><span class="line">ProjectName=<span class="string">"XingHomecloud"</span></span><br><span class="line">Configuration=<span class="string">"Release"</span></span><br><span class="line">IPAPath=<span class="string">"$ProjectRootDir/ipa"</span></span><br><span class="line">IPATitle=<span class="string">"XingHC"</span></span><br><span class="line">TargetBuildDir=<span class="string">"$ProjectRootDir/build"</span></span><br><span class="line">CODE_SIGN_STRING=<span class="string">"iPhone Distribution: ZTE CORPORATION"</span></span><br><span class="line">PROVISIONING_PROFILE_STRING=<span class="string">"$IPAPath/ZXIPTV_InHouse.mobileprovision"</span></span><br></pre></td></tr></table></figure>
+
+
 </li>
-<li><p>Jenkins版本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">IFS=$<span class="string">'\n'</span></span><br><span class="line"></span><br><span class="line">CONFIGURATION=Release</span><br><span class="line">PROJECT_ROOT=<span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;JOB_NAME&#125;</span></span><br><span class="line">SOURCE_ROOT=<span class="variable">$&#123;PROJECT_ROOT&#125;</span>/<span class="variable">$&#123;JOB_NAME&#125;</span></span><br><span class="line">PLIST_FILE=<span class="variable">$&#123;SOURCE_ROOT&#125;</span>/Info.plist</span><br><span class="line">APP_ICON_PATH=<span class="variable">$&#123;SOURCE_ROOT&#125;</span>/Images.xcassets/AppIcon.appiconset</span><br><span class="line"></span><br><span class="line">rm -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/ipa/*</span><br><span class="line">rm -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/app/*</span><br><span class="line"></span><br><span class="line">BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c <span class="string">"Print CFBundleVersion"</span> <span class="string">"<span class="variable">$PLIST_FILE</span>"</span>)</span><br><span class="line">BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c <span class="string">"Print CFBundleShortVersionString"</span> <span class="string">"<span class="variable">$PLIST_FILE</span>"</span>)</span><br><span class="line"></span><br><span class="line">NORTH_STRING=<span class="variable">$&#123;CONFIGURATION&#125;</span>_<span class="variable">$&#123;BUILD_NUMBER&#125;</span></span><br><span class="line">SOUTH_STRING=<span class="variable">$&#123;BUNDLE_VERSION&#125;</span></span><br><span class="line"></span><br><span class="line">PATH=<span class="variable">$&#123;PATH&#125;</span>:/usr/<span class="built_in">local</span>/bin</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">generateIcon</span></span> () &#123;</span><br><span class="line">    IMAGE_NAME=<span class="variable">$1</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"APP_ICON_PATH = <span class="variable">$APP_ICON_PATH</span>"</span></span><br><span class="line">    </span><br><span class="line">    SOURCE_IMAGE_PATH=`find <span class="variable">$&#123;PROJECT_ROOT&#125;</span> -name <span class="variable">$IMAGE_NAME</span> -depth 1`</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"SOURCE_IMAGE_PATH = <span class="variable">$SOURCE_IMAGE_PATH</span>"</span></span><br><span class="line">    TARGET_IMAGE_PATH=<span class="variable">$&#123;APP_ICON_PATH&#125;</span>/<span class="variable">$&#123;IMAGE_NAME&#125;</span></span><br><span class="line">    </span><br><span class="line">    WIDTH=$(identify -format %w <span class="variable">$&#123;SOURCE_IMAGE_PATH&#125;</span>)</span><br><span class="line">    FONT_SIZE=$(<span class="built_in">echo</span> <span class="string">"<span class="variable">$WIDTH</span> * .15"</span> | bc -l)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"width = <span class="variable">$WIDTH</span>, font size ＝ <span class="variable">$FONT_SIZE</span>"</span></span><br><span class="line">    </span><br><span class="line">    convert <span class="variable">$&#123;SOURCE_IMAGE_PATH&#125;</span> \</span><br><span class="line">    -fill black -font Times-Bold -pointsize <span class="variable">$&#123;FONT_SIZE&#125;</span> \</span><br><span class="line">            -gravity north -annotate +0+10 <span class="string">"<span class="variable">$&#123;NORTH_STRING&#125;</span>"</span> \</span><br><span class="line">    - | </span><br><span class="line">    convert -fill white -font Times-Bold -pointsize <span class="variable">$&#123;FONT_SIZE&#125;</span> \</span><br><span class="line">    -gravity south -annotate 0 <span class="string">"<span class="variable">$&#123;SOUTH_STRING&#125;</span>"</span> - \</span><br><span class="line">            <span class="variable">$&#123;TARGET_IMAGE_PATH&#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;CONFIGURATION&#125;</span>"</span> != <span class="string">"Distribution"</span> ]; <span class="keyword">then</span></span><br><span class="line">    generateIcon <span class="string">"AppIcon60x60@2x.png"</span></span><br><span class="line">    generateIcon <span class="string">"AppIcon60x60@3x.png"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<ol start="2">
+<li>根据参数确定<code>ipa</code>包的名字以及<code>Configuration</code>的值 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">IPAName=<span class="string">"<span class="variable">$IPATitle</span>.ipa"</span></span><br><span class="line">VersionName=<span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> arg <span class="keyword">in</span> <span class="string">"<span class="variable">$@</span>"</span>; <span class="keyword">do</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="variable">$arg</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ x<span class="variable">$1</span> != x ]; <span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"参数1, VersionName = <span class="variable">$1</span>"</span></span><br><span class="line">	VersionName=<span class="variable">$1</span></span><br><span class="line">	IPAName=<span class="string">"<span class="variable">$IPATitle</span>-<span class="variable">$VersionName</span>.ipa"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ x<span class="variable">$2</span> != x ]; <span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"参数2, Configuration = <span class="variable">$2</span>"</span></span><br><span class="line">	Configuration=<span class="variable">$2</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"IPAName = <span class="variable">$IPAName</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Configuration = <span class="variable">$Configuration</span>"</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="3">
+<li>清理项目和临时文件目录 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">rm</span> -rf <span class="variable">$TargetBuildDir</span></span><br><span class="line">/usr/bin/xcodebuild clean -configuration <span class="variable">$Configuration</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="4">
+<li><p>如果是单个project</p>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/xcodebuild -target <span class="variable">$ProjectName</span> \</span><br><span class="line">	-configuration <span class="variable">$Configuration</span> \</span><br><span class="line">	<span class="attribute">CODE_SIGN_IDENTITY</span>=<span class="string">"<span class="variable">$CODE_SIGN_STRING</span>"</span></span><br></pre></td></tr></table></figure>
+
+<p> 如果是工作空间</p>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/xcodebuild -workspace <span class="variable">$ProjectRootDir</span>/<span class="variable">$ProjectName</span>.xcworkspace \</span><br><span class="line"> 	-scheme <span class="variable">$ProjectName</span> \</span><br><span class="line">   	-configuration <span class="variable">$Configuration</span> \</span><br><span class="line">   	-sdk iphoneos \</span><br><span class="line">   	<span class="attribute">CODE_SIGN_RESOURCE_RULES_PATH</span>=<span class="string">'$(SDKROOT)/ResourceRules.plist'</span> \</span><br><span class="line">   	<span class="attribute">OBJROOT</span>=<span class="variable">$TargetBuildDir</span> \</span><br><span class="line">   	<span class="attribute">TARGET_BUILD_DIR</span>=<span class="variable">$TargetBuildDir</span> \</span><br></pre></td></tr></table></figure>
+
+<p> 这里因为设置了<code>TARGET_BUILD_DIR</code>,所以需要在工程的<code>Library Search Path</code>中添加设置的目录，否则编译会报错，信息是找不到引用的第三方库: <code>library not found for -l AFNetworking</code>,但是直接在Xcode中编译会出现一个找不到目录的警告,这个暂时还没有办法两全其美的办法。<br> 另外，如果在项目中有额外的静态库，还需要将静态库以及头文件拷贝到<code>TARGET_BUILD_DIR</code>中。</p>
+ <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp <span class="variable">$(</span>ProjectRootDir)/<span class="variable">$ProjectName</span>/SDK/* <span class="variable">$TargetBuildDir</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="5">
+<li>打包IPA <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mkdir -<span class="selector-tag">p</span> <span class="variable">$IPAPath</span></span><br><span class="line">/usr/bin/xcrun -sdk iphoneos \</span><br><span class="line">	PackageApplication \</span><br><span class="line">		-v <span class="variable">$TargetBuildDir</span>/<span class="variable">$ProjectName</span><span class="selector-class">.app</span> \</span><br><span class="line">		-o <span class="variable">$IPAPath</span>/<span class="variable">$IPAName</span> \</span><br><span class="line">		--sign <span class="string">"$CODE_SIGN_STRING"</span></span><br><span class="line">		--embed <span class="string">"$PROVISIONING_PROFILE_STRING"</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="6">
+<li>清理临时目录 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">rm</span> -rf <span class="variable">$TargetBuildDir</span></span><br></pre></td></tr></table></figure>
+
+</li>
 </ol>
 
           
@@ -501,7 +536,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -545,7 +580,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -566,7 +601,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -611,7 +648,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

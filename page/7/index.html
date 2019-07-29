@@ -255,7 +255,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">14</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">17</span></a>
 
   </li>
         
@@ -273,7 +273,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">2</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">3</span></a>
 
   </li>
         
@@ -291,7 +291,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">14</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">16</span></a>
 
   </li>
 
@@ -346,7 +346,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/01/08/将hexo同时备份到GitHub和GitCafe上/">
+    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/05/06/动态设置CocoaLumberjack的日志级别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sytuzhouyong">
@@ -366,7 +366,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2016/01/08/将hexo同时备份到GitHub和GitCafe上/" class="post-title-link" itemprop="url">将hexo同时备份到GitHub和GitCafe上</a>
+                <a href="/2016/05/06/动态设置CocoaLumberjack的日志级别/" class="post-title-link" itemprop="url">动态设置CocoaLumberjack的日志级别</a>
               
             
           </h1>
@@ -391,7 +391,7 @@
                 
               
 
-              <time title="Created: 2016-01-08 17:16:08" itemprop="dateCreated datePublished" datetime="2016-01-08T17:16:08+08:00">2016-01-08</time>
+              <time title="Created: 2016-05-06 15:03:57" itemprop="dateCreated datePublished" datetime="2016-05-06T15:03:57+08:00">2016-05-06</time>
             </span>
           
 
@@ -406,7 +406,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2016-05-06 17:16:24" itemprop="dateModified" datetime="2016-05-06T17:16:24+08:00">2016-05-06</time>
+                <time title="Modified: 2019-07-11 15:40:48" itemprop="dateModified" datetime="2019-07-11T15:40:48+08:00">2019-07-11</time>
               </span>
             
           
@@ -447,17 +447,38 @@
       
         
           
-            <ol>
-<li><p>首先在<code>GitHub</code>上的<code>master</code>分支上新建一个仓，叫<code>yourname.github.io</code>, <code>GitCafe</code>上新建一个分支叫<code>gitcafe-pages</code>, 在此分支上新建一个<code>yourname</code>的仓</p>
-</li>
-<li><p>在hexo根目录下的配置文件<code>_config.yml</code>里面的<code>deploy:</code>里面的配置改成</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repo</span>:</span><br><span class="line">    <span class="attribute">github</span>: <span class="attribute">https</span>:<span class="comment">//github.com/sytuzhouyong/sytuzhouyong.github.io.git,master</span></span><br><span class="line">    <span class="attribute">gitcafe</span>: <span class="attribute">https</span>:<span class="comment">//gitcafe.com/sytuzhouyong/sytuzhouyong.git,gitcafe-pages</span></span><br></pre></td></tr></table></figure>
+            <h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>在某些时候，我们需要动态控制日志的打印级别。比如在执行某个操作的时候，需要<code>DDLogLevelVerbose</code>级别，执行完成后需要<code>DDLogLevelInfo</code>级别，这时候之前的日志级别设置就没有能力来实现.</p>
+<h4 id="之前的实现"><a href="#之前的实现" class="headerlink" title="之前的实现"></a>之前的实现</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> DEBUG</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 
-<p>之后执行<code>hexo deploy</code>时就会同时向2个库提交修改。</p>
-</li>
-</ol>
-<hr>
-<h2 id="祝您使用愉快！"><a href="#祝您使用愉快！" class="headerlink" title="祝您使用愉快！"></a>祝您使用愉快！</h2>
+<p>后面想到，是不是只要改变<code>ddLogLevel</code>的值就可以实现了呢？改成</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> DEBUG</span></span><br><span class="line">    <span class="keyword">static</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="keyword">static</span> DDLogLevel ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>去掉了<code>const</code>修饰符，然后随便在一个按钮响应函数里面设置成</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ddLogLevel</span> = DDLogLevelError<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p>测试了下，点击了按钮，发现没有作用，只能另外再找方法。</p>
+<h4 id="DDRegisteredDynamicLogging"><a href="#DDRegisteredDynamicLogging" class="headerlink" title="DDRegisteredDynamicLogging"></a>DDRegisteredDynamicLogging</h4><p>后来在翻看<code>DDLog.h</code>文件时发现了<code>DDRegisteredDynamicLogging</code>这个协议，里面提供了2个静态方法</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ <span class="comment">(DDLogLevel)</span>ddLogLevel;</span><br><span class="line">+ <span class="comment">(void)</span>ddSetLogLevel:<span class="comment">(DDLogLevel)</span>level;</span><br></pre></td></tr></table></figure>
+
+<p>里面还有段说明文字：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Implement these methods <span class="keyword">to</span> allow a <span class="built_in">file</span>'s <span class="built_in">log</span> level</span><br><span class="line"> <span class="keyword">to</span> be managed <span class="keyword">from</span> a central location.</span><br><span class="line"></span><br><span class="line">This <span class="keyword">is</span> useful <span class="keyword">if</span> you'd like <span class="keyword">to</span> be able <span class="keyword">to</span> change <span class="built_in">log</span> levels <span class="keyword">for</span></span><br><span class="line"> various parts  <span class="keyword">of</span> your code <span class="keyword">from</span> within <span class="keyword">the</span> <span class="built_in">running</span> <span class="built_in">application</span>.  </span><br><span class="line"></span><br><span class="line">Imagine pulling up <span class="keyword">the</span> settings <span class="keyword">for</span> your <span class="built_in">application</span>, </span><br><span class="line"><span class="keyword">and</span> being able <span class="keyword">to</span> configure <span class="keyword">the</span> logging level <span class="keyword">on</span> a per <span class="built_in">file</span> basis.</span><br></pre></td></tr></table></figure>
+
+<p>看样子貌似可以，说干就干。新建一个类，实现<code>DDRegisteredDynamicLogging</code>协议。  </p>
+<p>DDDynamicLogLevel.h</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">"DDLog.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">DDDynamicLogLevel</span> : <span class="title">NSObject</span> &lt;<span class="title">DDRegisteredDynamicLogging</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p>DDDynamicLogLevel.m<br><b>注意</b> 这里新建一个静态变量，用于动态控制日志级别</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> DDLogLevel s_ddLogLevel = DDLogLevelVerbose;</span><br><span class="line"></span><br><span class="line"><span class="meta">@implementation</span> DDDynamicLogLevel</span><br><span class="line"></span><br><span class="line">+ (DDLogLevel)ddLogLevel &#123;</span><br><span class="line">    <span class="keyword">return</span> s_ddLogLevel;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)<span class="string">ddSetLogLevel:</span>(DDLogLevel)level &#123;</span><br><span class="line">    s_ddLogLevel = level;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br></pre></td></tr></table></figure>
+
+<p>然后将之前定义的日志级别宏定义替换为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOG_LEVEL_DEF</span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">undef</span> LOG_LEVEL_DEF</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOG_LEVEL_DEF [DDDynamicLogLevel ddLogLevel]</span></span><br></pre></td></tr></table></figure>
+
+<p>注意引入头文件<code>DDDynamicLogLevel.h</code>，再测试，</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[DDDynamicLogLevel ddSetLogLevel:DDLogLevelError]</span>;</span><br><span class="line"><span class="selector-tag">DDLogInfo</span>(@<span class="string">"111 -- Info"</span>);</span><br><span class="line"><span class="selector-tag">DDLogError</span>(@<span class="string">"11111111"</span>);</span><br><span class="line">    </span><br><span class="line"><span class="selector-attr">[DDDynamicLogLevel ddSetLogLevel:DDLogLevelInfo]</span>;</span><br><span class="line"><span class="selector-tag">DDLogInfo</span>(@<span class="string">"222 -- Info"</span>);</span><br><span class="line"><span class="selector-tag">DDLogError</span>(@<span class="string">"222222222"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>发现起作用了，打完收工<del>~</del></p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>就到这里了，祝大家使用愉快！</p>
+
           
         
       
@@ -504,7 +525,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -548,7 +569,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -569,7 +590,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -614,7 +637,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
