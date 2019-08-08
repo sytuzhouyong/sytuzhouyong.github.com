@@ -255,7 +255,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">17</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">18</span></a>
 
   </li>
         
@@ -273,7 +273,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">3</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">4</span></a>
 
   </li>
         
@@ -291,7 +291,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">16</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">17</span></a>
 
   </li>
 
@@ -346,7 +346,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/05/06/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/05/09/RunLoop-NSTimer-结合使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sytuzhouyong">
@@ -366,7 +366,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2016/05/06/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+                <a href="/2016/05/09/RunLoop-NSTimer-结合使用/" class="post-title-link" itemprop="url">RunLoop & NSTimer 结合使用</a>
               
             
           </h1>
@@ -391,10 +391,14 @@
                 
               
 
-              <time title="Created: 2016-05-06 17:20:17" itemprop="dateCreated datePublished" datetime="2016-05-06T17:20:17+08:00">2016-05-06</time>
+              <time title="Created: 2016-05-09 19:18:52 / Modified: 19:29:57" itemprop="dateCreated datePublished" datetime="2016-05-09T19:18:52+08:00">2016-05-09</time>
             </span>
           
 
+          
+            
+
+            
           
 
           
@@ -433,22 +437,26 @@
       
         
           
-            <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+            <p><code>NSTimer</code>有两种类型的初始化方法, 一种是<code>scheduledTimerWithXXX</code>, 一种是<code>timerWithXXX</code>.</p>
+<ul>
+<li>scheduledTimerWithXXX:<br>Creates and returns a new NSTimer object and schedules it on the current run loop in the default mode.<br>自动添加到<code>RunLoop</code>中.</li>
+</ul>
+<p>这一种方法只能在主线程中使用, 不需要调用<code>fire</code>函数, 也不能通过<code>NSRunLoop</code>的<code>addTimer</code>函数添加, 因为它会被自动添加到当前的<code>RunLoop</code>中.<br>例如下面的写法, 定时函数是不会调用的, 即使把<code>addTimer</code>那一行代码注释掉也不能正常调用定时函数.  </p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__weak __typeof(<span class="name">&amp;*self</span>) weakself = self<span class="comment">;</span></span><br><span class="line">dispatch_async(<span class="name">dispatch_get_global_queue</span>(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    weakself.timer = [NSTimer scheduledTimerWithTimeInterval:<span class="number">2.0</span> target<span class="symbol">:self</span> selector:@selector(<span class="name">timerFired</span>) userInfo<span class="symbol">:nil</span> repeats<span class="symbol">:YES</span>]<span class="comment">;</span></span><br><span class="line">    [[NSRunLoop mainRunLoop] addTimer<span class="symbol">:weakself</span>.timer forMode<span class="symbol">:NSRunLoopCommonModes</span>]<span class="comment">;</span></span><br><span class="line">&#125;)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>要想正常运行，只需要把<code>scheduledTimerWithXXX</code>换成<code>timerWithXXX</code>即可.</p>
+<ul>
+<li>timerWithXXX:<br>Creates and returns a new NSTimer object initialized with the specified object and selector.<br>初始化<code>NSTimer</code>, 需要手动添加到<code>RunLoop</code>中. </li>
+</ul>
+<p>当在主线程中初始化时, 如下代码:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.timer = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">2.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerFired) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">[<span class="keyword">self</span>.timer fire];</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>需要调用<code>fire</code>函数才能触发. 而且不管<code>repeats</code>为<code>YES</code>还是<code>NO</code>, 都只触发一次定时函数.<br>正确的使用范例如下:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__<span class="keyword">weak</span> __<span class="keyword">typeof</span>(&amp;*<span class="keyword">self</span>) weakself = <span class="keyword">self</span>;</span><br><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    weakself.timer = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">2.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerFired) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:weakself.timer forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] run]; <span class="comment">// 这一句不能少, 是为了保持线程运行</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<h3 id="Add-tags-to-article"><a href="#Add-tags-to-article" class="headerlink" title="Add tags to article"></a>Add tags to article</h3><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tags:</span> [iOS, Xcode, xxx]</span><br></pre></td></tr></table></figure>
-
-<p><strong><em>注意</em></strong>：<br><code>tags</code>后面有一个空格，<code>tags</code>之间通过逗号进行分割。</p>
+<ul>
+<li>下面这段话摘自: <a href="http://www.cnblogs.com/liyang31tg/p/3662557.html" target="_blank" rel="noopener">www.cnblogs.com/liyang31tg/p/3662557.html</a><br>NSRunLoop的理解，每一个线程都有一个NSRunLoop对象，然而定时器也是在这个对象上面运行的，当一个线程运行完成了过后，会自动关闭线程，自然NSRunLoop也会被销毁，自然定时器就不会运行，为了不让其线程关闭，用此语句   [[NSRunLoop currentRunLoop] run]; 那么线程就会保持活跃状态(前提是这个线程里面还有需要被执行的东西，比如说定时器,网络请求等(经过测试的，网络请求，GCD也一样), (这可能是一种优化，单凭这句话，还不能将此线程保持活跃，必须有需要执行的东西)，不会被关闭，自然定时器也就能用了.</li>
+</ul>
 
           
         
@@ -496,7 +504,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -540,7 +548,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -563,7 +571,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -614,7 +624,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
