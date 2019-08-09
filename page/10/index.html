@@ -255,7 +255,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">18</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">20</span></a>
 
   </li>
         
@@ -273,7 +273,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">7</span></a>
 
   </li>
         
@@ -291,7 +291,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">18</span></a>
 
   </li>
 
@@ -346,7 +346,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/01/08/将hexo同时备份到GitHub和GitCafe上/">
+    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/01/19/iOS项目一键打包脚本/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sytuzhouyong">
@@ -366,7 +366,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2016/01/08/将hexo同时备份到GitHub和GitCafe上/" class="post-title-link" itemprop="url">将hexo同时备份到GitHub和GitCafe上</a>
+                <a href="/2016/01/19/iOS项目一键打包脚本/" class="post-title-link" itemprop="url">iOS项目一键打包脚本</a>
               
             
           </h1>
@@ -391,7 +391,7 @@
                 
               
 
-              <time title="Created: 2016-01-08 17:16:08" itemprop="dateCreated datePublished" datetime="2016-01-08T17:16:08+08:00">2016-01-08</time>
+              <time title="Created: 2016-01-19 21:25:38" itemprop="dateCreated datePublished" datetime="2016-01-19T21:25:38+08:00">2016-01-19</time>
             </span>
           
 
@@ -406,11 +406,26 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2016-05-06 17:16:24" itemprop="dateModified" datetime="2016-05-06T17:16:24+08:00">2016-05-06</time>
+                <time title="Modified: 2019-08-09 16:21:24" itemprop="dateModified" datetime="2019-08-09T16:21:24+08:00">2019-08-09</time>
               </span>
             
           
 
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -448,16 +463,48 @@
         
           
             <ol>
-<li><p>首先在<code>GitHub</code>上的<code>master</code>分支上新建一个仓，叫<code>yourname.github.io</code>, <code>GitCafe</code>上新建一个分支叫<code>gitcafe-pages</code>, 在此分支上新建一个<code>yourname</code>的仓</p>
-</li>
-<li><p>在hexo根目录下的配置文件<code>_config.yml</code>里面的<code>deploy:</code>里面的配置改成</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repo</span>:</span><br><span class="line">    <span class="attribute">github</span>: <span class="attribute">https</span>:<span class="comment">//github.com/sytuzhouyong/sytuzhouyong.github.io.git,master</span></span><br><span class="line">    <span class="attribute">gitcafe</span>: <span class="attribute">https</span>:<span class="comment">//gitcafe.com/sytuzhouyong/sytuzhouyong.git,gitcafe-pages</span></span><br></pre></td></tr></table></figure>
+<li>定义一系列变量 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ProjectRootDir=<span class="string">"<span class="variable">$(PWD)</span>"</span></span><br><span class="line">ProjectName=<span class="string">"XingHomecloud"</span></span><br><span class="line">Configuration=<span class="string">"Release"</span></span><br><span class="line">IPAPath=<span class="string">"$ProjectRootDir/ipa"</span></span><br><span class="line">IPATitle=<span class="string">"XingHC"</span></span><br><span class="line">TargetBuildDir=<span class="string">"$ProjectRootDir/build"</span></span><br><span class="line">CODE_SIGN_STRING=<span class="string">"iPhone Distribution: ZTE CORPORATION"</span></span><br><span class="line">PROVISIONING_PROFILE_STRING=<span class="string">"$IPAPath/ZXIPTV_InHouse.mobileprovision"</span></span><br></pre></td></tr></table></figure>
 
-<p>之后执行<code>hexo deploy</code>时就会同时向2个库提交修改。</p>
+
 </li>
 </ol>
-<hr>
-<h2 id="祝您使用愉快！"><a href="#祝您使用愉快！" class="headerlink" title="祝您使用愉快！"></a>祝您使用愉快！</h2>
+<ol start="2">
+<li>根据参数确定<code>ipa</code>包的名字以及<code>Configuration</code>的值 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">IPAName=<span class="string">"<span class="variable">$IPATitle</span>.ipa"</span></span><br><span class="line">VersionName=<span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> arg <span class="keyword">in</span> <span class="string">"<span class="variable">$@</span>"</span>; <span class="keyword">do</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="variable">$arg</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ x<span class="variable">$1</span> != x ]; <span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"参数1, VersionName = <span class="variable">$1</span>"</span></span><br><span class="line">	VersionName=<span class="variable">$1</span></span><br><span class="line">	IPAName=<span class="string">"<span class="variable">$IPATitle</span>-<span class="variable">$VersionName</span>.ipa"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ x<span class="variable">$2</span> != x ]; <span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"参数2, Configuration = <span class="variable">$2</span>"</span></span><br><span class="line">	Configuration=<span class="variable">$2</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"IPAName = <span class="variable">$IPAName</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Configuration = <span class="variable">$Configuration</span>"</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="3">
+<li>清理项目和临时文件目录 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">rm</span> -rf <span class="variable">$TargetBuildDir</span></span><br><span class="line">/usr/bin/xcodebuild clean -configuration <span class="variable">$Configuration</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="4">
+<li><p>如果是单个project</p>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/xcodebuild -target <span class="variable">$ProjectName</span> \</span><br><span class="line">	-configuration <span class="variable">$Configuration</span> \</span><br><span class="line">	<span class="attribute">CODE_SIGN_IDENTITY</span>=<span class="string">"<span class="variable">$CODE_SIGN_STRING</span>"</span></span><br></pre></td></tr></table></figure>
+
+<p> 如果是工作空间</p>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/xcodebuild -workspace <span class="variable">$ProjectRootDir</span>/<span class="variable">$ProjectName</span>.xcworkspace \</span><br><span class="line"> 	-scheme <span class="variable">$ProjectName</span> \</span><br><span class="line">   	-configuration <span class="variable">$Configuration</span> \</span><br><span class="line">   	-sdk iphoneos \</span><br><span class="line">   	<span class="attribute">CODE_SIGN_RESOURCE_RULES_PATH</span>=<span class="string">'$(SDKROOT)/ResourceRules.plist'</span> \</span><br><span class="line">   	<span class="attribute">OBJROOT</span>=<span class="variable">$TargetBuildDir</span> \</span><br><span class="line">   	<span class="attribute">TARGET_BUILD_DIR</span>=<span class="variable">$TargetBuildDir</span> \</span><br></pre></td></tr></table></figure>
+
+<p> 这里因为设置了<code>TARGET_BUILD_DIR</code>,所以需要在工程的<code>Library Search Path</code>中添加设置的目录，否则编译会报错，信息是找不到引用的第三方库: <code>library not found for -l AFNetworking</code>,但是直接在Xcode中编译会出现一个找不到目录的警告,这个暂时还没有办法两全其美的办法。<br> 另外，如果在项目中有额外的静态库，还需要将静态库以及头文件拷贝到<code>TARGET_BUILD_DIR</code>中。</p>
+ <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp <span class="variable">$(</span>ProjectRootDir)/<span class="variable">$ProjectName</span>/SDK/* <span class="variable">$TargetBuildDir</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="5">
+<li>打包IPA <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mkdir -<span class="selector-tag">p</span> <span class="variable">$IPAPath</span></span><br><span class="line">/usr/bin/xcrun -sdk iphoneos \</span><br><span class="line">	PackageApplication \</span><br><span class="line">		-v <span class="variable">$TargetBuildDir</span>/<span class="variable">$ProjectName</span><span class="selector-class">.app</span> \</span><br><span class="line">		-o <span class="variable">$IPAPath</span>/<span class="variable">$IPAName</span> \</span><br><span class="line">		--sign <span class="string">"$CODE_SIGN_STRING"</span></span><br><span class="line">		--embed <span class="string">"$PROVISIONING_PROFILE_STRING"</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="6">
+<li>清理临时目录 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">rm</span> -rf <span class="variable">$TargetBuildDir</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
           
         
       
@@ -504,7 +551,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -548,7 +595,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -573,7 +620,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -626,7 +679,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

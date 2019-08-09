@@ -255,7 +255,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">18</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">20</span></a>
 
   </li>
         
@@ -273,7 +273,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">7</span></a>
 
   </li>
         
@@ -291,7 +291,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">18</span></a>
 
   </li>
 
@@ -346,7 +346,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2017/09/01/《Git-权威指南》读书笔记/">
+    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2019/07/11/读书笔记之【HTTP图解】/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sytuzhouyong">
@@ -366,7 +366,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/09/01/《Git-权威指南》读书笔记/" class="post-title-link" itemprop="url">《Git 权威指南》读书笔记</a>
+                <a href="/2019/07/11/读书笔记之【HTTP图解】/" class="post-title-link" itemprop="url">读书笔记之【HTTP图解】</a>
               
             
           </h1>
@@ -391,7 +391,7 @@
                 
               
 
-              <time title="Created: 2017-09-01 00:30:36" itemprop="dateCreated datePublished" datetime="2017-09-01T00:30:36+08:00">2017-09-01</time>
+              <time title="Created: 2019-07-11 17:26:11" itemprop="dateCreated datePublished" datetime="2019-07-11T17:26:11+08:00">2019-07-11</time>
             </span>
           
 
@@ -406,7 +406,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-07-29 14:44:13" itemprop="dateModified" datetime="2019-07-29T14:44:13+08:00">2019-07-29</time>
+                <time title="Modified: 2019-08-09 16:53:44" itemprop="dateModified" datetime="2019-08-09T16:53:44+08:00">2019-08-09</time>
               </span>
             
           
@@ -420,7 +420,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络/" itemprop="url" rel="index"><span itemprop="name">网络</span></a></span>
 
                 
                 
@@ -462,239 +462,61 @@
       
         
           
-            <h3 id="目录资源"><a href="#目录资源" class="headerlink" title="目录资源"></a>目录资源</h3><ol>
-<li><p><code>.git</code>文件夹</p>
-<ul>
-<li><p><code>.git/refs</code><br>保存引用的命名空间列表</p>
-</li>
-<li><p><code>.git/refs/heads</code><br>该目录下的引用称为分支，heads下的文件名就对应分支名，分支名里面存放着最新的<code>commit-id</code><br>如<code>refs/heads/master</code> - <code>master</code>分支</p>
-</li>
-<li><p><code>.git/index</code><br>包含文件索引的目录树，记录文件名和状态信息（时间戳和文件长度等）<br>文件索引建立了文件和对象库中对象实体之间的对应<br>通过比较时间戳，文件长度等信息判断文件是否更改</p>
-</li>
-<li><p><code>.git/objects</code><br><code>git</code>对象库, 保存文件的内容</p>
-</li>
-</ul>
-</li>
+            <h1 id="分层结构"><a href="#分层结构" class="headerlink" title="分层结构"></a>分层结构</h1><h3 id="4层模型：-从上往下"><a href="#4层模型：-从上往下" class="headerlink" title="4层模型：(从上往下)"></a>4层模型：(从上往下)</h3><pre><code>* 应用层 （HTTP，FTP）
+* 传输层 （TCP, UDP）
+* 网络层  (IP)
+* 链路层  (ARP)</code></pre><h3 id="返回结果的HTTP状态码"><a href="#返回结果的HTTP状态码" class="headerlink" title="返回结果的HTTP状态码"></a>返回结果的HTTP状态码</h3><h4 id="2XX-成功"><a href="#2XX-成功" class="headerlink" title="2XX 成功"></a>2XX 成功</h4><ol>
+<li>200<br> OK 请求成功</li>
+<li>204<br> No Content，请求成功，但没有资源返回</li>
+<li>206<br> Partial Content，范围请求，响应中包含由Content-range指定范围的实体内容  </li>
 </ol>
-<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ol>
-<li><p>分区</p>
-<ul>
-<li><p>工作区<br>代码编辑的地方</p>
-</li>
-<li><p>版本库<br>包含引用命名空间，暂存区，对象库</p>
-<ul>
-<li>暂存区（<code>index</code>，<code>stage</code>）<br>介于工作区和版本库的中间状态</li>
-<li>对象库<br>保存文件的内容</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><code>ID</code></p>
-<ul>
-<li><p><code>commit-id</code> 提交<code>id</code><br>生成算法： <code>( printf &quot;commit 提交信息的字符数\000&quot;; git cat-file commit HEAD ) | sha1sum</code></p>
-</li>
-<li><p><code>parent-id</code> 父提交<code>id</code></p>
-</li>
-<li><p><code>tree-id</code> 目录树<code>id</code><br>提交对应的目录树<code>id</code></p>
-</li>
-<li><p>查看id对应的对象<br><code>git cat-file -p hash-id</code></p>
-</li>
-<li><p>查看引用对应的提交id<br><code>git rev-prase HEAD</code><br><code>git rev-prase master</code><br><code>git rev-prase refs/heads/master</code><br>指向的都已同一个<code>commit-id</code></p>
-</li>
-<li><p>父提交<code>id</code><br><code>HEAD^</code><br><code>HEAD~5</code> = <code>HEAD^^^^^</code><br><code>commit-id^{tree}</code> 父提交的树对象<br><code>commit-id:path/to/file</code> 某次提交对应的文件对象</p>
-</li>
-</ul>
-</li>
-<li><p>引用<br><code>git cat-file -t &lt;ref-name&gt;</code> 查看引用的类型</p>
-</li>
-<li><p>目录树<br><code>git ls-tree -l HEAD</code><br>显示HEAD的目录树<br><code>git ls-files -s</code><br>显示暂存区目录树</p>
-</li>
-<li><p>命令 <code>git</code></p>
-<ul>
-<li><code>add</code><ol>
-<li><code>git add -A</code> : 对删除的文件执行<code>git rm</code>, 对新增和修改的文件执行<code>git add</code></li>
-<li><code>git add -u</code> : 对删除的文件执行<code>git rm</code>, 对修改的文件执行<code>git add</code></li>
+<h4 id="3XX-重定向"><a href="#3XX-重定向" class="headerlink" title="3XX 重定向"></a>3XX 重定向</h4><ol>
+<li>301 永久重定向<br> 响应的location头部字段包含新的uri</li>
+<li>302 临时重定向  </li>
+<li>303 See Other<br>   请求的资源存在另一个URI，应使用<code>GET</code>方法定向或者请求的资源  </li>
+<li>304 Not Modified<br> 服务器资源未改变，可使用客户端未过期的缓存</li>
 </ol>
-</li>
-<li><code>branch</code><ol>
-<li>查看<ul>
-<li><code>-v/-vv</code>: 显示当前分支名 远程分支名(2个v), 最新的一条提交记录</li>
-</ul>
-</li>
-<li>创建<ul>
-<li><code>&lt;br-name&gt;</code>: 创建本地分支</li>
-<li><code>&lt;br-name&gt; &lt;commit-id&gt;</code>: 以<code>commit-id</code>为<code>HEAD</code>，创建本地分支</li>
-<li><code>git push &lt;远程库&gt; &lt;本地分支名&gt;</code>: 创建远程分支</li>
-</ul>
-</li>
-<li>删除<ul>
-<li><code>git branch -d &lt;br-name&gt;</code>: 检查分支是否已经合并到其他分支，否则拒绝删除</li>
-<li><code>git branch -D &lt;br-name&gt;</code>: 强制删除</li>
-</ul>
-</li>
-<li>重命名<ul>
-<li><code>git branch -m &lt;old-br&gt; &lt;new-br&gt;</code>: 检查名为new-br的分支是否已经存在，存在就拒绝重命名</li>
-<li><code>git branch -M &lt;old-br&gt; &lt;new-br&gt;</code>: 强制重命名</li>
-</ul>
-</li>
+<h4 id="4XX-客户端错误"><a href="#4XX-客户端错误" class="headerlink" title="4XX 客户端错误"></a>4XX 客户端错误</h4><ol>
+<li>400 Bad request<br> 请求报文中存在语法错误</li>
+<li>401 Unauthorized<br> 发送的请求需要通过HTTP认证(Basic, DIGEST)的信息。若之前已经进行过一次请求，表示用户认证失败</li>
+<li>403 Forbidden<br> 请求资源的访问被服务器拒绝了</li>
+<li>404 Not Found<br> 服务器上没有请求的资源  </li>
 </ol>
-</li>
-<li><code>checkout</code><ol>
-<li>无参数<br>汇总显示工作区，暂存区与HEAD的差异</li>
-<li><code>&lt;file-path&gt;</code><br>用暂存区文件覆盖工作区文件</li>
-<li><code>&lt;commit-id&gt;</code><br>用指定提交覆盖工作区和暂存区, 会进入头指针分离状态</li>
-<li><code>&lt;commit-id&gt; &lt;file-path&gt;</code><br>用指定提交中的文件覆盖暂存区和工作区中对应的文件</li>
-<li><code>&lt;ref-name&gt; -- &lt;file-path&gt;</code><br>同上，eg. <code>git checkout HEAD^1 -- path/to/file</code></li>
-<li><code>&lt;br-name&gt;</code><br>切换分支</li>
-<li><code>&lt;br-name&gt; -- &lt;file-path&gt;</code><br>用指定分支中的文件替换暂存区和工作区对应的文件</li>
-<li><code>.</code><br>用暂存区所有文覆盖工作区本地文件，本地新增的文件不会丢失</li>
+<h4 id="5XX-服务器错误"><a href="#5XX-服务器错误" class="headerlink" title="5XX 服务器错误"></a>5XX 服务器错误</h4><ol>
+<li>500 Internal Server Error<br> 服务器在执行请求时发生错误</li>
+<li>503 Service Unavailable<br> 服务器暂时处于超负荷或正在停机维护</li>
 </ol>
+<h3 id="URI和URL"><a href="#URI和URL" class="headerlink" title="URI和URL"></a>URI和URL</h3><pre><code>URI: Uniform Resource Identifier 统一资源标识符
+URL: Uniform Resource Locator 统一资源定位符
+URL是URI的子集</code></pre><h3 id="HTTP-加密-认证-完整性保护-HTTPS"><a href="#HTTP-加密-认证-完整性保护-HTTPS" class="headerlink" title="HTTP + 加密 + 认证 + 完整性保护 = HTTPS"></a>HTTP + 加密 + 认证 + 完整性保护 = HTTPS</h3><pre><code>SSL: Secure Socket Layer，独立于HTTP协议。
+TLS: Transport Layer Security 
+
+HTTP直接和TCP通信
+当使用SSL时，则变成先和SSL通信，再由SSL和TCP通信。
+HTTPS就是身披SSL协议外壳的HTTP
+
+|          |    | 应用HTTP  |
+|:--------:|:--:|:--------:|
+| 应用HTTP  | =&gt; |    SSL   |
+|    TCP   |    |    TCP   |
+|    IP    |    |    IP    |
+
+
+加密
+非对称加密：公开密钥，私有密钥。
+    用公开密钥加密，用私有密钥解密；杜绝了对称加密中分发密钥的风险</code></pre><h3 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h3><ol>
+<li><p>basic认证 基本认证  </p>
+<pre><code>a. 返回状态码401告知客户端需要进行认证
+b. 用户id和密码以 &lt;id&gt;:&lt;pwd&gt; 进行base64编码后，设置到HTTP头Authorization字段
+c. 认证成功则返回200以及请求资源的内容</code></pre></li>
+<li><p>DIGEST认证 摘要认证  </p>
+<pre><code>使用质询/响应方式
+一方先发送认证要求给另一方，  
+接着使用从另一方接收到的质询码计算生成响应码  
+最后将响应吗返还给对方进行认证的方式</code></pre></li>
+<li><p>SSL客户端认证</p>
 </li>
-<li><code>cherry-pick</code><br>从众多提交中挑选一个提交应用在当前分支, 应用后源提交的SHA1会发生变化</li>
-<li><code>commit</code><ol>
-<li>提交本地文件到暂存区，进入信息编辑界面</li>
-<li><code>-C &lt;commid-id&gt;/&lt;tag-name&gt;</code><br>沿用指定commit-id/tag的提交信息<br>通常和<code>git reset --soft HEAD^^</code>合用，用于<strong>提交日志合并</strong></li>
-</ol>
-</li>
-<li><strong><code>diff</code></strong><ol>
-<li>没有参数<br>工作区和暂存区比较</li>
-<li><code>&lt;commit-id1&gt; &lt;commit-id2&gt;</code><br>比较两个commit之间的差异</li>
-<li><code>&lt;commit1-id/tag1-name&gt; &lt;commit2-id/tag2-name&gt; -- &lt;path&gt;</code><br>比较两个<code>commit/tag</code>之间指定路径的差异</li>
-<li><code>--cached &lt;commit-id&gt;/&lt;tag-name&gt;</code><br>比较暂存区和指定commit-id或者tag</li>
-<li><code>--cached</code><br>暂存区和HEAD比较</li>
-<li><code>--HEAD</code><br>工作区和HEAD比较</li>
-</ol>
-</li>
-<li><code>fsck</code><br>查看没有被任何引用关联的松散对象</li>
-<li><code>log</code><ol>
-<li><code>--stat</code><br>显示修改摘要</li>
-<li><code>-p</code><br>显示修改详情</li>
-<li><code>--oneline</code><br>一行显示提交信息</li>
-</ol>
-</li>
-<li><code>mv</code><br><code>&lt;src-file&gt; &lt;dst-file&gt;</code><br>移动文件</li>
-<li><code>prune</code><br>清除为关联的松散对象</li>
-<li><code>rebase</code><ol>
-<li><code>--onto &lt;newbase&gt; &lt;since&gt; &lt;till&gt;</code><ul>
-<li>步骤<ol>
-<li>执行<code>git checkout</code>切换到<code>till</code></li>
-<li>将 <code>&lt;since&gt;..&lt;till&gt;</code>所标识的提交范围写到一个临时文件中 <code>(since, till]</code></li>
-<li>将分支强制重置 <code>git reset --hard</code> 到 <code>newbase</code></li>
-<li>从保存在临时文件的提交列表中，将按顺序逐一提交到重置后的分支上</li>
-<li>若遇到的提交在分支中已经包含则跳过</li>
-<li>若遇到冲突，变基过程暂定。解决冲突后（需要<code>git add</code>，不需要<code>git commit</code>），<code>git rebase --continue</code>继续变基操作，<code>git rebase --skip</code>跳过此提交，<code>git rebase --abort</code>终止变基操作，并切换到变基前的分支上</li>
-</ol>
-</li>
-</ul>
-</li>
-<li>删除旧提交历史<ul>
-<li>步骤<ol>
-<li>创建新的根目录树<br><code>echo &quot;new commit msg&quot; | git commit-tree C^{tree}</code></li>
-<li>变基<br><code>git rebase --onto 69bca1a7(上一条命令的执行结果) C^ HEAD</code></li>
-</ol>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-<li><code>reflog</code><ol>
-<li>无参数<br>显示对当前仓库所有分支的操作记录</li>
-<li><code>show &lt;br-name&gt;</code><br>显示对当前分支的操作记录 - cat .git/logs/refs/heads/master</li>
-<li>若想恢复到某条操作记录的状态<br>执行<code>git reset --hard &lt;commit-id&gt;/&lt;ref&gt;</code></li>
-</ol>
-</li>
-<li><code>reset</code><ol>
-<li>–hard commit-id<ul>
-<li>步骤<ol>
-<li>替换master引用的指向，指向新的提交id</li>
-<li>替换暂存区，替换后暂存区和引用指向的目录树一致</li>
-<li>替换工作区，替换后工作区内容和暂存区一致，也和HEAD指向的目录树内容一致</li>
-</ol>
-</li>
-<li>注意点<br>破坏工作区未提交的改动</li>
-</ul>
-</li>
-<li>–mixed或不使用参数 commit-id<ul>
-<li>步骤<ol>
-<li>替换<code>master</code>引用的指向，指向新的提交id</li>
-<li>替换暂存区，替换后暂存区和引用指向的目录树一致</li>
-<li>不改变工作区</li>
-</ol>
-</li>
-</ul>
-</li>
-<li>–soft commit-id<ul>
-<li>步骤<ol>
-<li>替换<code>master</code>引用的指向，指向新的提交<code>id</code></li>
-<li>不改变暂存区和工作区 – 测试发现貌似改变了暂存区 <code>HEAD^^</code></li>
-</ol>
-</li>
-</ul>
-</li>
-<li>HEAD<br>用指定提交状态下的文件替换暂存区中的文件，应该是目录树替换</li>
-</ol>
-</li>
-<li><code>rev-list -HEAD</code><br>显示所有提交<code>commit-id</code><ol>
-<li>显示当前分支总的提交次数<br><code>rev-list -HEAD | wc -l</code>:</li>
-</ol>
-</li>
-<li><code>revert</code><br>反转提交<br><code>git revert HEAED</code>, 将最新的一次提交还原到提交之前的状态</li>
-<li><code>show-ref</code><br>查看所有引用，包括tag和分支</li>
-<li><code>stash</code><ol>
-<li>无参数<br>保存当前工作区和暂存区进度<br><strong>注意</strong>：工作区新增的文件不会保存</li>
-<li><code>pop</code><br>从最近保存的进度恢复当前工作区<ul>
-<li>–index：恢复工作区和尝试恢复暂存区文件</li>
-<li>：恢复指定的进度</li>
-<li><strong>注意</strong>：工作区新增的文件不会保存</li>
-</ul>
-</li>
-<li><code>list</code><br>显示保存的进度</li>
-<li><code>drop &lt;stash-id&gt;</code><br>丢弃指定保存的进度，默认删除最新的进度</li>
-<li><code>clear</code><br>删除所有存储的进度</li>
-<li><code>branch &lt;br-name&gt; &lt;stash-id&gt;</code><br>基于进度创建分支</li>
-<li><code>save -k</code><br>在保存进度后不会重置工作区和暂存区，默认会重置暂存区和工作区</li>
-</ol>
-</li>
-<li><code>status</code><ol>
-<li><code>-s</code><br>精简显示差异信息</li>
-<li><code>-b</code><br>显示信息中带分支名</li>
-<li><code>--ignore</code><br>显示被忽略的文件</li>
-</ol>
-</li>
-<li><code>tag</code><ol>
-<li>创建<ul>
-<li><code>&lt;tag-name&gt; &lt;commit-id&gt;</code><br>不带说明</li>
-<li><code>-a &lt;tag-name&gt; &lt;commit-id&gt;</code><br>带说明</li>
-<li><code>-m &lt;tag-desc&gt; &lt;tag-name&gt; &lt;commit-id&gt;</code><br>带说明</li>
-</ul>
-</li>
-<li>删除<ul>
-<li>本地<br>git tag -d<br><strong>注意</strong>：tag一经删除不易恢复，删除的命令输出中会显示tag对象的提交ID，一旦发现错误删除，赶紧补救</li>
-<li>远程<ol>
-<li><code>git tag -d &lt;tag-name&gt;</code></li>
-<li><code>git push origin:&lt;tag-name&gt;</code></li>
-</ol>
-</li>
-</ul>
-</li>
-<li>推送<ul>
-<li>推送一条<br>git push origin</li>
-<li>推送所有<br>git push origin refs/tags/*</li>
-</ul>
-</li>
-<li>拉取<br><code>git pull origin refs/tags/&lt;tag1-name&gt;:refs/tags/&lt;tag2-name&gt;</code><br><code>tag-name</code> 可以是<code>tag</code>名或者通配符</li>
-<li>查看 - 支持通配符<ul>
-<li>查看本地<ol>
-<li><code>git tag</code></li>
-<li><code>git show-ref</code></li>
-</ol>
-</li>
-<li>查看远程<br><code>git ls-remote &lt;remote-url&gt; *</code><br><code>remote-url</code>: <code>origin</code>或者是完整的<code>git</code>地址</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
+<li><p>FormBase认证 基于表单认证</p>
 </li>
 </ol>
 
@@ -744,7 +566,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -788,7 +610,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -813,7 +635,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -866,7 +694,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

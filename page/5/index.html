@@ -255,7 +255,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">18</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">20</span></a>
 
   </li>
         
@@ -273,7 +273,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">7</span></a>
 
   </li>
         
@@ -291,7 +291,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">18</span></a>
 
   </li>
 
@@ -346,7 +346,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2016/05/20/随心所欲的添加Xcode编译参数/">
+    <link itemprop="mainEntityOfPage" href="http://sytuzhouyong.gitcafe.io/2017/09/01/读书笔记之【Git权威指南】/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sytuzhouyong">
@@ -366,7 +366,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2016/05/20/随心所欲的添加Xcode编译参数/" class="post-title-link" itemprop="url">随心所欲的添加Xcode编译参数</a>
+                <a href="/2017/09/01/读书笔记之【Git权威指南】/" class="post-title-link" itemprop="url">读书笔记之【Git权威指南】</a>
               
             
           </h1>
@@ -391,7 +391,7 @@
                 
               
 
-              <time title="Created: 2016-05-20 16:42:01 / Modified: 16:44:45" itemprop="dateCreated datePublished" datetime="2016-05-20T16:42:01+08:00">2016-05-20</time>
+              <time title="Created: 2017-09-01 00:30:36" itemprop="dateCreated datePublished" datetime="2017-09-01T00:30:36+08:00">2017-09-01</time>
             </span>
           
 
@@ -399,8 +399,33 @@
             
 
             
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-08-09 16:53:27" itemprop="dateModified" datetime="2019-08-09T16:53:27+08:00">2019-08-09</time>
+              </span>
+            
           
 
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -437,15 +462,241 @@
       
         
           
-            <p>最近在做一个打包iOS项目的小工具，在打包的过程中遇到了一个错误，导致打包失败，如下图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/336941-6fac99c909b8212c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="GenerateDSYMFile_Error.png"></p>
-<p>后来在StackOverflow上找到答案，<code>Build Settings</code>-&gt;<code>Build Options</code>-&gt;<code>Debug Information Format</code>下对应的<code>Configuration</code>下的<code>DWARF with dSYM file</code>改成<code>DWARF</code>，如下图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/336941-4c61fe7abd1ef98a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DebugInformationFormat.png"></p>
-<p>改了后试了下，果然错误没有了，打包成功。但是有一个问题，不能让别人用这个工具的时候都自己去手动设置下这个配置吧，这算什么<a href="https://github.com/sytuzhouyong/EasyPackage" target="_blank" rel="noopener">EasyPackage</a>？能不能工具在编译的时候就加上这个参数呢？一想，既然工程中能够设置，说明在工程文件中肯定有这个配置项存在啊，所以就打开打包项目中的<code>project.pbxproj</code>文件，先把文件还原成默认的，搜索<code>dsym</code>，果然存在，如下图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/336941-f669752b4207c391.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dYSM.png"></p>
-<p>知道了，编译参数叫<code>DEBUG_INFORMATION_FORMAT</code>，然后把这个参数放到我自己的编译任务中去，一跑，O了，O(∩_∩)O哈哈~。</p>
-<p>类推下去，其实工程中能看到的选项都可以支持，要编译参数和值都正确，而所有的参数都在<code>project.pbxproj</code>这个文件中，所以想怎么玩都可以，Enjoy it~</p>
-<p>PS.<br>  欢迎大家使用我的<a href="https://github.com/sytuzhouyong/EasyPackage" target="_blank" rel="noopener">EasyPackage</a>，有问题随时联系我~</p>
+            <h3 id="目录资源"><a href="#目录资源" class="headerlink" title="目录资源"></a>目录资源</h3><ol>
+<li><p><code>.git</code>文件夹</p>
+<ul>
+<li><p><code>.git/refs</code><br>保存引用的命名空间列表</p>
+</li>
+<li><p><code>.git/refs/heads</code><br>该目录下的引用称为分支，heads下的文件名就对应分支名，分支名里面存放着最新的<code>commit-id</code><br>如<code>refs/heads/master</code> - <code>master</code>分支</p>
+</li>
+<li><p><code>.git/index</code><br>包含文件索引的目录树，记录文件名和状态信息（时间戳和文件长度等）<br>文件索引建立了文件和对象库中对象实体之间的对应<br>通过比较时间戳，文件长度等信息判断文件是否更改</p>
+</li>
+<li><p><code>.git/objects</code><br><code>git</code>对象库, 保存文件的内容</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ol>
+<li><p>分区</p>
+<ul>
+<li><p>工作区<br>代码编辑的地方</p>
+</li>
+<li><p>版本库<br>包含引用命名空间，暂存区，对象库</p>
+<ul>
+<li>暂存区（<code>index</code>，<code>stage</code>）<br>介于工作区和版本库的中间状态</li>
+<li>对象库<br>保存文件的内容</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>ID</code></p>
+<ul>
+<li><p><code>commit-id</code> 提交<code>id</code><br>生成算法： <code>( printf &quot;commit 提交信息的字符数\000&quot;; git cat-file commit HEAD ) | sha1sum</code></p>
+</li>
+<li><p><code>parent-id</code> 父提交<code>id</code></p>
+</li>
+<li><p><code>tree-id</code> 目录树<code>id</code><br>提交对应的目录树<code>id</code></p>
+</li>
+<li><p>查看id对应的对象<br><code>git cat-file -p hash-id</code></p>
+</li>
+<li><p>查看引用对应的提交id<br><code>git rev-prase HEAD</code><br><code>git rev-prase master</code><br><code>git rev-prase refs/heads/master</code><br>指向的都已同一个<code>commit-id</code></p>
+</li>
+<li><p>父提交<code>id</code><br><code>HEAD^</code><br><code>HEAD~5</code> = <code>HEAD^^^^^</code><br><code>commit-id^{tree}</code> 父提交的树对象<br><code>commit-id:path/to/file</code> 某次提交对应的文件对象</p>
+</li>
+</ul>
+</li>
+<li><p>引用<br><code>git cat-file -t &lt;ref-name&gt;</code> 查看引用的类型</p>
+</li>
+<li><p>目录树<br><code>git ls-tree -l HEAD</code><br>显示HEAD的目录树<br><code>git ls-files -s</code><br>显示暂存区目录树</p>
+</li>
+<li><p>命令 <code>git</code></p>
+<ul>
+<li><code>add</code><ol>
+<li><code>git add -A</code> : 对删除的文件执行<code>git rm</code>, 对新增和修改的文件执行<code>git add</code></li>
+<li><code>git add -u</code> : 对删除的文件执行<code>git rm</code>, 对修改的文件执行<code>git add</code></li>
+</ol>
+</li>
+<li><code>branch</code><ol>
+<li>查看<ul>
+<li><code>-v/-vv</code>: 显示当前分支名 远程分支名(2个v), 最新的一条提交记录</li>
+</ul>
+</li>
+<li>创建<ul>
+<li><code>&lt;br-name&gt;</code>: 创建本地分支</li>
+<li><code>&lt;br-name&gt; &lt;commit-id&gt;</code>: 以<code>commit-id</code>为<code>HEAD</code>，创建本地分支</li>
+<li><code>git push &lt;远程库&gt; &lt;本地分支名&gt;</code>: 创建远程分支</li>
+</ul>
+</li>
+<li>删除<ul>
+<li><code>git branch -d &lt;br-name&gt;</code>: 检查分支是否已经合并到其他分支，否则拒绝删除</li>
+<li><code>git branch -D &lt;br-name&gt;</code>: 强制删除</li>
+</ul>
+</li>
+<li>重命名<ul>
+<li><code>git branch -m &lt;old-br&gt; &lt;new-br&gt;</code>: 检查名为new-br的分支是否已经存在，存在就拒绝重命名</li>
+<li><code>git branch -M &lt;old-br&gt; &lt;new-br&gt;</code>: 强制重命名</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><code>checkout</code><ol>
+<li>无参数<br>汇总显示工作区，暂存区与HEAD的差异</li>
+<li><code>&lt;file-path&gt;</code><br>用暂存区文件覆盖工作区文件</li>
+<li><code>&lt;commit-id&gt;</code><br>用指定提交覆盖工作区和暂存区, 会进入头指针分离状态</li>
+<li><code>&lt;commit-id&gt; &lt;file-path&gt;</code><br>用指定提交中的文件覆盖暂存区和工作区中对应的文件</li>
+<li><code>&lt;ref-name&gt; -- &lt;file-path&gt;</code><br>同上，eg. <code>git checkout HEAD^1 -- path/to/file</code></li>
+<li><code>&lt;br-name&gt;</code><br>切换分支</li>
+<li><code>&lt;br-name&gt; -- &lt;file-path&gt;</code><br>用指定分支中的文件替换暂存区和工作区对应的文件</li>
+<li><code>.</code><br>用暂存区所有文覆盖工作区本地文件，本地新增的文件不会丢失</li>
+</ol>
+</li>
+<li><code>cherry-pick</code><br>从众多提交中挑选一个提交应用在当前分支, 应用后源提交的SHA1会发生变化</li>
+<li><code>commit</code><ol>
+<li>提交本地文件到暂存区，进入信息编辑界面</li>
+<li><code>-C &lt;commid-id&gt;/&lt;tag-name&gt;</code><br>沿用指定commit-id/tag的提交信息<br>通常和<code>git reset --soft HEAD^^</code>合用，用于<strong>提交日志合并</strong></li>
+</ol>
+</li>
+<li><strong><code>diff</code></strong><ol>
+<li>没有参数<br>工作区和暂存区比较</li>
+<li><code>&lt;commit-id1&gt; &lt;commit-id2&gt;</code><br>比较两个commit之间的差异</li>
+<li><code>&lt;commit1-id/tag1-name&gt; &lt;commit2-id/tag2-name&gt; -- &lt;path&gt;</code><br>比较两个<code>commit/tag</code>之间指定路径的差异</li>
+<li><code>--cached &lt;commit-id&gt;/&lt;tag-name&gt;</code><br>比较暂存区和指定commit-id或者tag</li>
+<li><code>--cached</code><br>暂存区和HEAD比较</li>
+<li><code>--HEAD</code><br>工作区和HEAD比较</li>
+</ol>
+</li>
+<li><code>fsck</code><br>查看没有被任何引用关联的松散对象</li>
+<li><code>log</code><ol>
+<li><code>--stat</code><br>显示修改摘要</li>
+<li><code>-p</code><br>显示修改详情</li>
+<li><code>--oneline</code><br>一行显示提交信息</li>
+</ol>
+</li>
+<li><code>mv</code><br><code>&lt;src-file&gt; &lt;dst-file&gt;</code><br>移动文件</li>
+<li><code>prune</code><br>清除为关联的松散对象</li>
+<li><code>rebase</code><ol>
+<li><code>--onto &lt;newbase&gt; &lt;since&gt; &lt;till&gt;</code><ul>
+<li>步骤<ol>
+<li>执行<code>git checkout</code>切换到<code>till</code></li>
+<li>将 <code>&lt;since&gt;..&lt;till&gt;</code>所标识的提交范围写到一个临时文件中 <code>(since, till]</code></li>
+<li>将分支强制重置 <code>git reset --hard</code> 到 <code>newbase</code></li>
+<li>从保存在临时文件的提交列表中，将按顺序逐一提交到重置后的分支上</li>
+<li>若遇到的提交在分支中已经包含则跳过</li>
+<li>若遇到冲突，变基过程暂定。解决冲突后（需要<code>git add</code>，不需要<code>git commit</code>），<code>git rebase --continue</code>继续变基操作，<code>git rebase --skip</code>跳过此提交，<code>git rebase --abort</code>终止变基操作，并切换到变基前的分支上</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>删除旧提交历史<ul>
+<li>步骤<ol>
+<li>创建新的根目录树<br><code>echo &quot;new commit msg&quot; | git commit-tree C^{tree}</code></li>
+<li>变基<br><code>git rebase --onto 69bca1a7(上一条命令的执行结果) C^ HEAD</code></li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><code>reflog</code><ol>
+<li>无参数<br>显示对当前仓库所有分支的操作记录</li>
+<li><code>show &lt;br-name&gt;</code><br>显示对当前分支的操作记录 - cat .git/logs/refs/heads/master</li>
+<li>若想恢复到某条操作记录的状态<br>执行<code>git reset --hard &lt;commit-id&gt;/&lt;ref&gt;</code></li>
+</ol>
+</li>
+<li><code>reset</code><ol>
+<li>–hard commit-id<ul>
+<li>步骤<ol>
+<li>替换master引用的指向，指向新的提交id</li>
+<li>替换暂存区，替换后暂存区和引用指向的目录树一致</li>
+<li>替换工作区，替换后工作区内容和暂存区一致，也和HEAD指向的目录树内容一致</li>
+</ol>
+</li>
+<li>注意点<br>破坏工作区未提交的改动</li>
+</ul>
+</li>
+<li>–mixed或不使用参数 commit-id<ul>
+<li>步骤<ol>
+<li>替换<code>master</code>引用的指向，指向新的提交id</li>
+<li>替换暂存区，替换后暂存区和引用指向的目录树一致</li>
+<li>不改变工作区</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>–soft commit-id<ul>
+<li>步骤<ol>
+<li>替换<code>master</code>引用的指向，指向新的提交<code>id</code></li>
+<li>不改变暂存区和工作区 – 测试发现貌似改变了暂存区 <code>HEAD^^</code></li>
+</ol>
+</li>
+</ul>
+</li>
+<li>HEAD<br>用指定提交状态下的文件替换暂存区中的文件，应该是目录树替换</li>
+</ol>
+</li>
+<li><code>rev-list -HEAD</code><br>显示所有提交<code>commit-id</code><ol>
+<li>显示当前分支总的提交次数<br><code>rev-list -HEAD | wc -l</code>:</li>
+</ol>
+</li>
+<li><code>revert</code><br>反转提交<br><code>git revert HEAED</code>, 将最新的一次提交还原到提交之前的状态</li>
+<li><code>show-ref</code><br>查看所有引用，包括tag和分支</li>
+<li><code>stash</code><ol>
+<li>无参数<br>保存当前工作区和暂存区进度<br><strong>注意</strong>：工作区新增的文件不会保存</li>
+<li><code>pop</code><br>从最近保存的进度恢复当前工作区<ul>
+<li>–index：恢复工作区和尝试恢复暂存区文件</li>
+<li>：恢复指定的进度</li>
+<li><strong>注意</strong>：工作区新增的文件不会保存</li>
+</ul>
+</li>
+<li><code>list</code><br>显示保存的进度</li>
+<li><code>drop &lt;stash-id&gt;</code><br>丢弃指定保存的进度，默认删除最新的进度</li>
+<li><code>clear</code><br>删除所有存储的进度</li>
+<li><code>branch &lt;br-name&gt; &lt;stash-id&gt;</code><br>基于进度创建分支</li>
+<li><code>save -k</code><br>在保存进度后不会重置工作区和暂存区，默认会重置暂存区和工作区</li>
+</ol>
+</li>
+<li><code>status</code><ol>
+<li><code>-s</code><br>精简显示差异信息</li>
+<li><code>-b</code><br>显示信息中带分支名</li>
+<li><code>--ignore</code><br>显示被忽略的文件</li>
+</ol>
+</li>
+<li><code>tag</code><ol>
+<li>创建<ul>
+<li><code>&lt;tag-name&gt; &lt;commit-id&gt;</code><br>不带说明</li>
+<li><code>-a &lt;tag-name&gt; &lt;commit-id&gt;</code><br>带说明</li>
+<li><code>-m &lt;tag-desc&gt; &lt;tag-name&gt; &lt;commit-id&gt;</code><br>带说明</li>
+</ul>
+</li>
+<li>删除<ul>
+<li>本地<br>git tag -d<br><strong>注意</strong>：tag一经删除不易恢复，删除的命令输出中会显示tag对象的提交ID，一旦发现错误删除，赶紧补救</li>
+<li>远程<ol>
+<li><code>git tag -d &lt;tag-name&gt;</code></li>
+<li><code>git push origin:&lt;tag-name&gt;</code></li>
+</ol>
+</li>
+</ul>
+</li>
+<li>推送<ul>
+<li>推送一条<br>git push origin</li>
+<li>推送所有<br>git push origin refs/tags/*</li>
+</ul>
+</li>
+<li>拉取<br><code>git pull origin refs/tags/&lt;tag1-name&gt;:refs/tags/&lt;tag2-name&gt;</code><br><code>tag-name</code> 可以是<code>tag</code>名或者通配符</li>
+<li>查看 - 支持通配符<ul>
+<li>查看本地<ol>
+<li><code>git tag</code></li>
+<li><code>git show-ref</code></li>
+</ol>
+</li>
+<li>查看远程<br><code>git ls-remote &lt;remote-url&gt; *</code><br><code>remote-url</code>: <code>origin</code>或者是完整的<code>git</code>地址</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
 
           
         
@@ -493,7 +744,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -537,7 +788,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -562,7 +813,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -615,7 +872,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
